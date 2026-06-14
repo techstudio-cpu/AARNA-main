@@ -1,6 +1,9 @@
 <!-- Header -->
 <header class="header">
   <div class="header-left">
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()" id="mobileMenuToggle">
+      ☰
+    </button>
     <h1><%= title || 'Dashboard' %></h1>
   </div>
   
@@ -18,3 +21,12 @@
     <div class="avatar"><%= (adminUser || 'A').charAt(0).toUpperCase() %></div>
   </div>
 </header>
+
+<script>
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('sidebar--open');
+  }
+}
+</script>

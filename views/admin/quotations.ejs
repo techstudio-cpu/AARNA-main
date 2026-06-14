@@ -3,7 +3,10 @@
 <head>
   <%- include('partials/head') %>
   <title>Quotations - Aarna Solars Admin</title>
+  <link rel="stylesheet" href="/css/admin-classic-base.css">
+  <link rel="stylesheet" href="/css/admin-classic-variables.css">
   <link rel="stylesheet" href="/css/admin-classic-quotation.css">
+  <link rel="stylesheet" href="/css/admin-classic-layout.css">
   <!-- PDF Generation Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -15,7 +18,7 @@
     <main class="main-content">
       <%- include('partials/header', { title: 'Quotation Builder' }) %>
       
-      <div class="qb-container">
+      <div class="qb-container active">
         <!-- Quotation Builder Header -->
         <div class="qb-header">
           <div>
@@ -28,9 +31,10 @@
           </div>
         </div>
         
-        <div class="qb-content">
+        <div class="qb-layout">
           <!-- Form Section -->
-          <div class="qb-form-section">
+          <div class="qb-sidebar">
+            <div class="qb-form-section">
             <div class="qb-card">
               <h3 class="qb-card-title">Customer Details</h3>
               <div class="qb-form-grid">
@@ -159,7 +163,7 @@
           </div>
           
           <!-- Preview Section -->
-          <div class="qb-preview-section">
+          <div class="qb-preview-area">
             <div class="qb-preview-header">
               <h3>Quotation Preview</h3>
               <div style="display: flex; gap: 8px;">
@@ -285,8 +289,8 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div> <!-- End qb-preview-area -->
+      </div> <!-- End qb-layout -->
     </main>
   </div>
   
