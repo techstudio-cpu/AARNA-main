@@ -194,6 +194,12 @@ async function startServer() {
     await migrateQuotations();
     console.log('✅ Quotations migration completed');
 
+    // Initialize default admin user
+    console.log('🔐 Initializing default admin user...');
+    const { initializeDefaultAdmin } = require('./config/auth-simple');
+    await initializeDefaultAdmin();
+    console.log('✅ Admin user initialization completed');
+
     // Admin panel enabled
   } else {
     console.log('⚠️  PostgreSQL not available - using JSON file storage for local development');

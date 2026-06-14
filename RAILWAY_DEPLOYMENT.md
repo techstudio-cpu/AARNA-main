@@ -75,6 +75,8 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 openssl rand -hex 32
 ```
 
+**⚠️ IMPORTANT:** The admin user will be **automatically created** during deployment using the environment variables above. Ensure these are set correctly before deploying.
+
 ### Step 4: Deploy
 
 1. Railway will automatically detect the configuration
@@ -144,9 +146,25 @@ openssl rand -hex 32
 - Review logs for startup errors
 
 **Issue:** Admin login not working
-- Verify `ADMIN_USERNAME` and `ADMIN_PASSWORD` are set
-- Check if session store is configured
-- Ensure PostgreSQL is accessible
+- Verify `ADMIN_USERNAME` and `ADMIN_PASSWORD` are set in Railway environment variables
+- Check deployment logs for "Admin user initialization completed" message
+- Ensure PostgreSQL is accessible and migrations ran successfully
+- Check if admin user exists in database (run the create-admin script)
+- Verify session store is configured (PostgreSQL session table)
+- Try restarting the deployment after updating environment variables
+- Check logs for authentication errors during login attempt
+
+**Solution: Manual Admin Creation**
+If automatic admin initialization fails, you can manually create an admin user:
+
+1. Access Railway console/terminal for your app
+2. Run the admin creation script:
+   ```bash
+   npm run create-admin
+   ```
+3. This will create/update the admin user using environment variables
+4. Restart your Railway deployment
+5. Try logging in again
 
 **Issue:** Database migrations not running
 - Check logs for migration errors
