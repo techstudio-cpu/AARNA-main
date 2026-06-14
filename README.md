@@ -66,10 +66,102 @@ A modern website and admin panel for **Aarna Solars and Services** — TATA Powe
 
 ## Deployment on Railway
 
-1. Push code to GitHub
-2. Connect Railway to your GitHub repository
-3. Add environment variables in Railway dashboard
-4. Railway will automatically deploy
+### Quick Deploy (via GitHub Integration)
+
+1. **Push code to GitHub** ✅ (Already completed)
+   ```bash
+   git add .
+   git commit -m "Your commit message"
+   git push
+   ```
+
+2. **Connect Railway to GitHub**
+   - Go to [railway.app](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select `techstudio-cpu/AARNA-main`
+   - Railway will automatically detect the Node.js project
+
+3. **Configure Environment Variables**
+   In Railway dashboard, add these variables:
+
+   | Variable | Required | Description | Default/Example |
+   |----------|----------|-------------|----------------|
+   | `NODE_ENV` | Yes | Environment | `production` |
+   | `PORT` | Yes | Server port | `3000` |
+   | `SESSION_SECRET` | Yes | Session encryption key | Generate random 32+ chars |
+   | `DATABASE_URL` | Recommended | PostgreSQL connection string | Railway provides this |
+   | `ADMIN_USERNAME` | Yes | Admin login username | `ST3093541` |
+   | `ADMIN_PASSWORD` | Yes | Admin login password | Strong password |
+   | `ADMIN_NAME` | Yes | Admin display name | `Admin` |
+   | `RESEND_API_KEY` | Optional | Email sending API key | For Resend |
+   | `GEMINI_API_KEY` | Optional | AI features API key | For AI features |
+
+4. **Add PostgreSQL Database**
+   - In Railway project, click "New Service" → "Database" → "PostgreSQL"
+   - Railway will automatically inject `DATABASE_URL` into your app
+   - The app will auto-run migrations on deploy
+
+5. **Deploy**
+   - Railway will automatically deploy on push
+   - Check deployment logs for any issues
+   - Monitor health check at `https://your-app.railway.app/health`
+
+### Manual Deploy (CLI)
+
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login
+railway login
+
+# Initialize project
+railway init
+
+# Add PostgreSQL database
+railway add postgresql
+
+# Set environment variables
+railway variables set NODE_ENV=production
+railway variables set ADMIN_USERNAME=ST3093541
+railway variables set ADMIN_PASSWORD=your_password
+railway variables set ADMIN_NAME=Admin
+railway variables set SESSION_SECRET=your_random_secret_key
+
+# Deploy
+railway up
+```
+
+### Railway Configuration Files
+
+- **`railway.json`** - Main Railway configuration with health checks
+- **`.nixpacks.toml`** - Build configuration for Nixpacks
+- **`Dockerfile`** - Alternative Docker deployment support
+
+### Health Check
+
+The application includes a health check endpoint:
+```
+GET /health
+```
+
+Returns JSON with:
+- Status (healthy/unhealthy)
+- Uptime
+- Memory usage
+- Database connection status
+- Database stats (leads, quotations count)
+- Response time
+- Node version
+
+### Railway Features Configured
+
+✅ **Health Check** - Auto-restarts if unhealthy
+✅ **PostgreSQL Integration** - Auto-migrations on deploy
+✅ **Environment Variables** - Secure secret management
+✅ **Automatic SSL** - HTTPS by default
+✅ **Auto-scaling** - Scales based on traffic
+✅ **Deploy Hooks** - Runs on every push
 
 ## Project Structure
 
