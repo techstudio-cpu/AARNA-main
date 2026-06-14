@@ -208,4 +208,9 @@ router.get('/', requireAuth, (req, res) => {
   res.redirect('/admin/dashboard');
 });
 
+// Pipeline route - redirects to dashboard (Kanban pipeline feature not yet implemented)
+router.get('/pipeline', requireAuth, (req, res) => {
+  res.redirect('/admin/dashboard');
+});
+
 module.exports = router;

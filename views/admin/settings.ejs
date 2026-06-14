@@ -152,8 +152,8 @@
               <tr>
                 <td>
                   <div style="display: flex; align-items: center; gap: 10px;">
-                    <div class="avatar"><%= user.name.charAt(0).toUpperCase() %></div>
-                    <div><%= user.name %></div>
+                    <div class="avatar"><%= user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U' %></div>
+                    <div><%= user.displayName || 'Unknown User' %></div>
                   </div>
                 </td>
                 <td><%= user.email %></td>
@@ -163,8 +163,8 @@
                   </span>
                 </td>
                 <td>
-                  <span class="badge badge-<%= user.status %>">
-                    <%= user.status.charAt(0).toUpperCase() + user.status.slice(1) %>
+                  <span class="badge badge-<%= user.active ? 'active' : 'inactive' %>">
+                    <%= user.active ? 'Active' : 'Inactive' %>
                   </span>
                 </td>
                 <td><%= user.lastActive ? new Date(user.lastActive).toLocaleDateString('en-IN') : 'Never' %></td>
