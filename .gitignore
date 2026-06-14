@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*
+.env.local
+
+# Data files (use JSON storage for local dev)
+data/*.json
+!data/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build output
+dist/
+build/
+.nyc_output/
+
+# Coverage
+coverage/
+
+# Temporary files
+tmp/
+temp/
+
+# Old/deleted files
+/logo.png
+/qb-app/
+/solar-website/
+
+# Railway
+.railway/
+
+# Devin
+.devin/
+

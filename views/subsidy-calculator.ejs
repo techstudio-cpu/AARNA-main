@@ -1,0 +1,281 @@
+<%- include('partials/header') %>
+
+<!-- Government Subsidy Calculator Section -->
+<section class="py-16 sm:py-24 bg-gradient-to-br from-solar-green to-teal-700">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          PM Surya Ghar Muft Bijli Yojana
+        </h1>
+        <p class="text-white/80 text-lg sm:text-xl max-w-2xl mx-auto">
+          Calculate your eligibility and subsidy amount under the Government of India's solar subsidy scheme
+        </p>
+      </div>
+      
+      <!-- Calculator Card -->
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div class="bg-solar-orange text-white p-6 text-center">
+          <p class="text-lg font-semibold">🏛️ Government of India Subsidy Calculator</p>
+        </div>
+        
+        <div class="p-6 sm:p-8">
+          <form id="subsidyForm" class="space-y-6">
+            <!-- Consumer Type -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Consumer Type *</label>
+              <select id="consumerType" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Consumer Type</option>
+                <option value="residential">Residential</option>
+                <option value="institutional">Institutional (Schools, Hospitals)</option>
+                <option value="commercial">Commercial</option>
+              </select>
+            </div>
+            
+            <!-- State -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">State *</label>
+              <select id="state" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select State</option>
+                <option value="madhya-pradesh">Madhya Pradesh</option>
+                <option value="other">Other States</option>
+              </select>
+            </div>
+            
+            <!-- Connection Type -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Electricity Connection Type *</label>
+              <select id="connectionType" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Connection Type</option>
+                <option value="domestic">Domestic</option>
+                <option value="commercial">Commercial</option>
+              </select>
+            </div>
+            
+            <!-- System Capacity -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Proposed Solar System Capacity (kW) *</label>
+              <input type="number" id="systemCapacity" min="1" max="100" step="0.5" required 
+                placeholder="Enter system capacity in kW (e.g., 3, 5, 10)"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+              <p class="text-sm text-gray-500 mt-1">Recommended: 2-10 kW for residential, 10-100 kW for commercial</p>
+            </div>
+            
+            <!-- Annual Electricity Consumption -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Annual Electricity Consumption (kWh) *</label>
+              <input type="number" id="annualConsumption" min="0" required 
+                placeholder="Enter your annual electricity consumption in kWh"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+              <p class="text-sm text-gray-500 mt-1">Check your electricity bill for annual consumption</p>
+            </div>
+            
+            <!-- Property Type -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Property Type *</label>
+              <select id="propertyType" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Property Type</option>
+                <option value="owned">Owned Property</option>
+                <option value="rented">Rented Property</option>
+              </select>
+              <p class="text-sm text-gray-500 mt-1">Subsidy is available for owned properties only</p>
+            </div>
+            
+            <button type="submit" class="w-full bg-gradient-to-r from-solar-orange to-orange-500 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+              <span>Calculate Subsidy</span>
+              <span>→</span>
+            </button>
+          </form>
+          
+          <!-- Results Section (Hidden by default) -->
+          <div id="resultsSection" class="hidden mt-8">
+            <div class="bg-gray-50 rounded-2xl p-6 sm:p-8">
+              <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Your Subsidy Calculation Results</h3>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">✓</span>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Eligibility Status</p>
+                      <p class="text-xl font-bold text-green-600" id="eligibilityStatus">Eligible</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">💰</span>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Estimated Subsidy</p>
+                      <p class="text-xl font-bold text-solar-orange" id="estimatedSubsidy">₹0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 bg-white rounded-xl p-6 shadow-md">
+                <h4 class="font-bold text-gray-800 mb-4">Subsidy Breakdown</h4>
+                <div class="space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Base Subsidy Rate</span>
+                    <span class="font-semibold" id="baseRate">₹0/kW</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Applicable Capacity</span>
+                    <span class="font-semibold" id="applicableCapacity">0 kW</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Additional State Subsidy (if applicable)</span>
+                    <span class="font-semibold" id="stateSubsidy">₹0</span>
+                  </div>
+                  <hr class="my-3">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-800">Total Estimated Subsidy</span>
+                    <span class="font-bold text-xl text-solar-orange" id="totalSubsidy">₹0</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 bg-blue-50 rounded-xl p-6">
+                <h4 class="font-bold text-gray-800 mb-3">📋 Required Documents for Subsidy Application</h4>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li class="flex items-start gap-2">
+                    <span class="text-solar-orange mt-1">•</span>
+                    <span>Electricity bill for last 12 months</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-solar-orange mt-1">•</span>
+                    <span>Property ownership documents</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-solar-orange mt-1">•</span>
+                    <span>Aadhar card and PAN card</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-solar-orange mt-1">•</span>
+                    <span>Bank account details for subsidy transfer</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-solar-orange mt-1">•</span>
+                    <span>System installation certificate from authorized vendor</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="mt-6 flex flex-col sm:flex-row gap-4">
+                <a href="/contact" class="flex-1 bg-solar-orange text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition text-center">
+                  Apply for Subsidy
+                </a>
+                <a href="/solar-calculator" class="flex-1 bg-solar-green text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition text-center">
+                  Calculate Full System Cost
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Important Notes -->
+      <div class="mt-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white">
+        <h4 class="font-bold mb-4">📌 Important Notes:</h4>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Subsidy is available only for residential and institutional consumers</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Maximum subsidy capacity: 3 kW for residential (₹78,000), higher for institutional</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Must install from government-authorized vendors (like Aarna Solars - TATA Power Partner)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Subsidy is directly transferred to your bank account after installation</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.getElementById('subsidyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const consumerType = document.getElementById('consumerType').value;
+  const state = document.getElementById('state').value;
+  const connectionType = document.getElementById('connectionType').value;
+  const systemCapacity = parseFloat(document.getElementById('systemCapacity').value);
+  const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
+  const propertyType = document.getElementById('propertyType').value;
+  
+  // Check eligibility
+  let eligible = true;
+  let eligibilityMessage = 'Eligible';
+  
+  if (consumerType === 'commercial') {
+    eligible = false;
+    eligibilityMessage = 'Not Eligible - Commercial consumers not covered under current scheme';
+  }
+  
+  if (propertyType === 'rented') {
+    eligible = false;
+    eligibilityMessage = 'Not Eligible - Subsidy available only for owned properties';
+  }
+  
+  // Calculate subsidy
+  let baseRate = 0;
+  let maxCapacity = 0;
+  
+  if (consumerType === 'residential') {
+    if (systemCapacity <= 2) {
+      baseRate = 30000;
+      maxCapacity = 2;
+    } else if (systemCapacity <= 3) {
+      baseRate = 78000;
+      maxCapacity = 3;
+    } else {
+      baseRate = 78000; // Max subsidy for residential
+      maxCapacity = 3;
+    }
+  } else if (consumerType === 'institutional') {
+    baseRate = 20000;
+    maxCapacity = 10;
+  }
+  
+  const applicableCapacity = Math.min(systemCapacity, maxCapacity);
+  let estimatedSubsidy = applicableCapacity * baseRate;
+  
+  // Add state-specific subsidy if applicable
+  let stateSubsidy = 0;
+  if (state === 'madhya-pradesh' && consumerType === 'residential') {
+    stateSubsidy = 10000; // Example additional state subsidy
+  }
+  
+  const totalSubsidy = estimatedSubsidy + stateSubsidy;
+  
+  // Update UI
+  document.getElementById('eligibilityStatus').textContent = eligibilityMessage;
+  document.getElementById('eligibilityStatus').className = eligible ? 'text-xl font-bold text-green-600' : 'text-xl font-bold text-red-600';
+  
+  document.getElementById('estimatedSubsidy').textContent = '₹' + totalSubsidy.toLocaleString('en-IN');
+  document.getElementById('baseRate').textContent = '₹' + baseRate.toLocaleString('en-IN') + '/kW';
+  document.getElementById('applicableCapacity').textContent = applicableCapacity + ' kW';
+  document.getElementById('stateSubsidy').textContent = '₹' + stateSubsidy.toLocaleString('en-IN');
+  document.getElementById('totalSubsidy').textContent = '₹' + totalSubsidy.toLocaleString('en-IN');
+  
+  // Show results
+  document.getElementById('resultsSection').classList.remove('hidden');
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,5 @@
+Deployment trigger: 2026-04-23T12:35:00+05:30
+Trigger count: 22
+Purpose: TechStudio Theme - Complete UI Redesign
+Commit: a3d07e4
+Feat: Dark theme, indigo-purple gradients, glassmorphism effects

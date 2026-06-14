@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+data/
+public/
+views/
+*.min.js
+*.log
+.env
+.env.*
+dist/

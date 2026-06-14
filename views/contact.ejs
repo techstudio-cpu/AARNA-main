@@ -1,0 +1,187 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="relative min-h-[220px] sm:min-h-[280px] py-16 sm:py-28 overflow-hidden">
+  <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80" alt="Solar panels on home rooftop" class="absolute inset-0 w-full h-full object-cover object-center">
+  <div class="absolute inset-0 bg-gradient-to-br from-solar-green/85 to-teal-800/85"></div>
+  <div class="relative container mx-auto px-4 text-center text-white">
+    <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">Contact <span class="text-solar-orange">Us</span></h1>
+    <p class="text-sm sm:text-xl text-gray-200 max-w-2xl mx-auto">Get in touch for a free solar consultation</p>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-12 sm:py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="grid md:grid-cols-2 gap-8 sm:gap-12">
+      <!-- Contact Form -->
+      <div class="bg-white rounded-2xl shadow-lg p-5 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Send Us a Message</h2>
+        
+        <% if (success) { %>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
+          <strong>Thank you!</strong> Your message has been sent successfully. We will contact you soon.
+        </div>
+        <% } %>
+        
+        <% if (error) { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <strong>Error!</strong> <%= error %>
+        </div>
+        <% } %>
+        
+        <form action="/contact" method="POST" class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Full Name *</label>
+              <input type="text" name="name" required
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-solar-orange focus:outline-none"
+                placeholder="Your Name">
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Phone Number *</label>
+              <input type="tel" name="phone" required
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-solar-orange focus:outline-none"
+                placeholder="Your Phone">
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Email</label>
+              <input type="email" name="email"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-solar-orange focus:outline-none"
+                placeholder="Your Email">
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Location</label>
+              <select name="location"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-solar-orange focus:outline-none">
+                <option value="">Select Location</option>
+                <option value="Satna">Satna</option>
+                <option value="Shahdol">Shahdol</option>
+                <option value="Umaria">Umaria</option>
+                <option value="Katni">Katni</option>
+                <option value="Sidhi">Sidhi</option>
+                <option value="Singrauli">Singrauli</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Service Type</label>
+            <select name="serviceType"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-solar-orange focus:outline-none">
+              <option value="">Select Service</option>
+              <option value="Residential Solar">Residential Solar</option>
+              <option value="Commercial Solar">Commercial Solar</option>
+              <option value="Institutional Solar">Institutional Solar</option>
+              <option value="Solar Financing">Solar Financing</option>
+              <option value="Maintenance">Maintenance & Service</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Message</label>
+            <textarea name="message" rows="4"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-solar-orange focus:outline-none resize-none"
+              placeholder="Tell us about your requirements..."></textarea>
+          </div>
+          
+          <button type="submit"
+            class="w-full bg-solar-orange text-white py-4 rounded-lg font-semibold hover:bg-orange-600 transition shadow-lg">
+            Send Message
+          </button>
+        </form>
+      </div>
+      
+      <!-- Contact Info -->
+      <div>
+        <div class="bg-solar-green text-white rounded-xl sm:rounded-2xl p-5 sm:p-8 mb-6 sm:mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Get In Touch</h2>
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="text-xl">📍</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">Our Office</h4>
+                <p class="text-gray-200">Jawahar Nagar, Lane No. 1, Near Kashi Palace, Satna, Madhya Pradesh</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="text-xl">📞</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">Toll Free</h4>
+                <a href="tel:18004198777" class="text-2xl font-bold text-yellow-300 hover:underline">1800 419 8777</a>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="text-xl">📱</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">Mobile</h4>
+                <p class="text-gray-200">
+                  <a href="tel:9243780840" class="hover:text-yellow-300">9243780840</a><br>
+                  <a href="tel:9993124222" class="hover:text-yellow-300">9993124222</a>
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="text-xl">🕐</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">Working Hours</h4>
+                <p class="text-gray-200">
+                  Monday - Saturday: 9:00 AM - 7:00 PM<br>
+                  Sunday: By Appointment
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Service Areas -->
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-8">
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Service Areas</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-solar-orange/10 text-solar-orange px-4 py-2 rounded-full font-medium">Satna</span>
+            <span class="bg-solar-green/10 text-solar-green px-4 py-2 rounded-full font-medium">Shahdol</span>
+            <span class="bg-solar-teal/10 text-solar-teal px-4 py-2 rounded-full font-medium">Umaria</span>
+            <span class="bg-tata-blue/10 text-tata-blue px-4 py-2 rounded-full font-medium">Katni</span>
+            <span class="bg-solar-orange/10 text-solar-orange px-4 py-2 rounded-full font-medium">Sidhi</span>
+            <span class="bg-solar-green/10 text-solar-green px-4 py-2 rounded-full font-medium">Singrauli</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-8 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="rounded-2xl overflow-hidden shadow-lg">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3622.5!2d80.8!3d24.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDMwJzAwLjAiTiA4MMKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin"
+        width="100%" 
+        height="300"
+        class="sm:h-[400px]" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

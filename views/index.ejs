@@ -1,0 +1,1060 @@
+<%- include('partials/header') %>
+
+<!-- WhatsApp Lead Funnel - Floating Button -->
+<div class="fixed bottom-6 right-6 z-50">
+  <a href="https://wa.me/919876543210?text=Hi%2C%20I%27m%20interested%20in%20solar%20energy%20for%20my%20property." 
+     target="_blank" 
+     class="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group">
+    <span class="text-3xl">💬</span>
+    <span class="absolute right-full mr-3 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
+      Chat with us!
+    </span>
+  </a>
+</div>
+
+<!-- WhatsApp Lead Funnel - Popup (shows after scroll) -->
+<div id="whatsappPopup" class="fixed bottom-6 right-6 z-50 hidden">
+  <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-xs">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+          <span class="text-2xl">💬</span>
+        </div>
+        <div>
+          <p class="font-bold text-gray-800">Need Help?</p>
+          <p class="text-sm text-gray-500">Chat with our solar experts</p>
+        </div>
+      </div>
+      <button onclick="closeWhatsAppPopup()" class="text-gray-400 hover:text-gray-600">
+        ✕
+      </button>
+    </div>
+    <div class="space-y-2">
+      <a href="https://wa.me/919876543210?text=Hi%2C%20I%20want%20a%20free%20solar%20consultation." 
+         target="_blank" 
+         class="block bg-green-50 hover:bg-green-100 text-green-700 px-4 py-3 rounded-xl text-center font-semibold transition">
+        📞 Get Free Consultation
+      </a>
+      <a href="https://wa.me/919876543210?text=Hi%2C%20I%20want%20to%20know%20about%20solar%20subsidy." 
+         target="_blank" 
+         class="block bg-green-50 hover:bg-green-100 text-green-700 px-4 py-3 rounded-xl text-center font-semibold transition">
+        🏛️ Check Subsidy Eligibility
+      </a>
+      <a href="https://wa.me/919876543210?text=Hi%2C%20I%20want%20a%20quotation%20for%20solar%20system." 
+         target="_blank" 
+         class="block bg-green-50 hover:bg-green-100 text-green-700 px-4 py-3 rounded-xl text-center font-semibold transition">
+        📄 Get Quotation
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Modern Hero Section -->
+<section class="relative min-h-[400px] h-[60vh] sm:h-[70vh] md:h-[80vh] max-h-[800px] overflow-hidden">
+  <!-- Background Image with Overlay -->
+  <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80" alt="Modern solar installation" class="absolute inset-0 w-full h-full object-cover object-center">
+  <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+  
+  <!-- Animated Particles/Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-20 left-10 w-20 h-20 bg-solar-orange/20 rounded-full blur-xl animate-pulse"></div>
+    <div class="absolute top-40 right-20 w-32 h-32 bg-solar-green/20 rounded-full blur-xl animate-pulse" style="animation-delay: 1s;"></div>
+    <div class="absolute bottom-20 left-1/3 w-24 h-24 bg-yellow-400/20 rounded-full blur-xl animate-pulse" style="animation-delay: 2s;"></div>
+  </div>
+  
+  <!-- Hero Content -->
+  <div class="absolute inset-0 flex items-center">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="max-w-3xl">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-4 sm:mb-6 border border-white/20">
+          <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          <span class="text-white text-xs sm:text-sm font-medium">TATA Power SOLAROOF Authorized Partner</span>
+        </div>
+        
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+          Power Your Future With 
+          <span class="bg-gradient-to-r from-solar-orange to-yellow-400 bg-clip-text text-transparent">Solar Energy</span>
+        </h1>
+        
+        <!-- Subheadline -->
+        <p class="text-gray-200 text-base sm:text-xl md:text-2xl mb-6 sm:mb-8 leading-relaxed max-w-2xl">
+          Save up to 50% on electricity bills with premium solar installations backed by TATA Power technology and 25-year warranty.
+        </p>
+        
+        <!-- Key Benefits -->
+        <div class="flex flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10">
+          <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/20">
+            <span class="text-xl">💰</span>
+            <span class="text-white text-xs sm:text-sm font-medium">Save 50% on Bills</span>
+          </div>
+          <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/20">
+            <span class="text-xl">🏆</span>
+            <span class="text-white text-xs sm:text-sm font-medium">25-Year Warranty</span>
+          </div>
+          <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/20">
+            <span class="text-xl">🇮🇳</span>
+            <span class="text-white text-xs sm:text-sm font-medium">Gov. Subsidy Upto ₹78K</span>
+          </div>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <a href="/contact" class="group bg-gradient-to-r from-solar-orange to-orange-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center text-sm sm:text-base flex items-center justify-center gap-2">
+            Get Free Quote
+            <span class="group-hover:translate-x-1 transition-transform">→</span>
+          </a>
+          <a href="/solar-calculator" class="group bg-white text-solar-green px-8 py-4 rounded-full font-semibold hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center text-sm sm:text-base flex items-center justify-center gap-2">
+            🧮 Calculate Savings
+            <span class="group-hover:translate-x-1 transition-transform">→</span>
+          </a>
+          <a href="/services" class="group border-2 border-white/50 text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-800 transition-all duration-300 text-center text-sm sm:text-base backdrop-blur-sm">
+            Explore Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Floating Stats Card -->
+  <div class="absolute bottom-8 right-4 sm:right-8 md:right-12 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6 max-w-xs hidden md:block">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+        <span class="text-2xl">⚡</span>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500">Happy Customers</p>
+        <p class="text-xl font-bold text-gray-800">300+</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+        <span class="text-2xl">🏠</span>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500">Installations</p>
+        <p class="text-xl font-bold text-gray-800">18MW+</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+        <span class="text-2xl">📍</span>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500">Service Areas</p>
+        <p class="text-xl font-bold text-gray-800">6 Districts</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Callback Form Section -->
+<section class="bg-white py-6 sm:py-8 shadow-lg relative z-20 mx-3 sm:mx-4 md:mx-auto max-w-4xl rounded-xl sm:rounded-2xl mt-6 sm:mt-8">
+  <div class="container mx-auto px-4 sm:px-6">
+    <h2 class="text-lg sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6">Get a FREE Solar Consultation!</h2>
+    <form id="callbackForm" class="flex flex-col gap-3 sm:gap-4 justify-center items-center">
+      <input type="tel" name="phone" placeholder="Enter Your Mobile Number" required
+        class="w-full sm:w-80 px-4 sm:px-6 py-3 sm:py-4 border-2 border-gray-200 rounded-full focus:border-solar-orange focus:outline-none text-base sm:text-lg">
+      <button type="submit" class="w-full sm:w-auto bg-solar-green text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-green-700 transition text-sm sm:text-base">
+        Get a Callback
+      </button>
+    </form>
+    <p id="callbackMessage" class="text-center mt-3 sm:mt-4 text-green-600 font-medium hidden text-sm sm:text-base"></p>
+    <p class="text-center text-gray-500 mt-3 sm:mt-4 text-xs sm:text-sm">
+      📍 SATNA - Jawahar Nagar, Lane No. 1, Near Kashi Palace
+    </p>
+  </div>
+</section>
+
+<!-- Installation Gallery Section -->
+<section class="py-16 sm:py-24 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        Our <span class="text-solar-orange">Installation Gallery</span>
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+        Explore our premium solar installations across residential, commercial, and industrial sectors
+      </p>
+    </div>
+    
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      <!-- Gallery Item 1 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600" alt="Residential solar installation" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Residential - 5kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Bhopal, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-orange px-2 py-1 rounded-full text-xs text-white font-medium">Premium</span>
+              <span class="text-gray-300 text-xs">Saving ₹45,000/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 2 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600" alt="Commercial solar panels" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Commercial - 50kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Indore, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-green px-2 py-1 rounded-full text-xs text-white font-medium">Industrial</span>
+              <span class="text-gray-300 text-xs">Saving ₹4.5L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 3 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=600" alt="Industrial solar setup" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Industrial - 100kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Jabalpur, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-green px-2 py-1 rounded-full text-xs text-white font-medium">Industrial</span>
+              <span class="text-gray-300 text-xs">Saving ₹9L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 4 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="School solar installation" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Institutional - 25kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Rewa, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-orange px-2 py-1 rounded-full text-xs text-white font-medium">Institutional</span>
+              <span class="text-gray-300 text-xs">Saving ₹2.2L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 5 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=600" alt="Office building solar" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Commercial - 75kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Satna, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-green px-2 py-1 rounded-full text-xs text-white font-medium">Industrial</span>
+              <span class="text-gray-300 text-xs">Saving ₹6.8L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 6 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" alt="Agricultural solar" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Agricultural - 15kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Sagar, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-orange px-2 py-1 rounded-full text-xs text-white font-medium">Agricultural</span>
+              <span class="text-gray-300 text-xs">Saving ₹1.3L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 7 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=600" alt="Hospital solar" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Healthcare - 30kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Bhopal, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-orange px-2 py-1 rounded-full text-xs text-white font-medium">Institutional</span>
+              <span class="text-gray-300 text-xs">Saving ₹2.7L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gallery Item 8 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600" alt="Factory solar" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <h3 class="text-white font-bold text-lg mb-1">Industrial - 200kW</h3>
+            <p class="text-gray-300 text-sm mb-2">Pithampur, MP</p>
+            <div class="flex items-center gap-2">
+              <span class="bg-solar-green px-2 py-1 rounded-full text-xs text-white font-medium">Industrial</span>
+              <span class="text-gray-300 text-xs">Saving ₹18L/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Gallery CTA -->
+    <div class="text-center mt-12">
+      <a href="/portfolio" class="inline-flex items-center gap-2 bg-solar-orange text-white px-8 py-4 rounded-full font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl">
+        View Complete Portfolio
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Why Solar Section -->
+<section class="py-12 sm:py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8 sm:mb-12">
+      <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">Why Use <span class="text-solar-orange">Solar Power?</span></h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">Discover the benefits of switching to solar energy</p>
+    </div>
+    
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+      <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
+        <img src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=400&q=80" alt="Save money with solar" class="w-full h-28 sm:h-36 object-cover">
+        <div class="p-4 sm:p-6">
+          <h3 class="text-sm sm:text-xl font-bold text-gray-800 mb-1 sm:mb-2">💰 Savings</h3>
+          <p class="text-gray-600 text-xs sm:text-base">Up to <span class="text-solar-orange font-bold">50%</span> reduction in bills.</p>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80" alt="Tax benefits on solar" class="w-full h-28 sm:h-36 object-cover">
+        <div class="p-4 sm:p-6">
+          <h3 class="text-sm sm:text-xl font-bold text-gray-800 mb-1 sm:mb-2">📋 Tax Benefits</h3>
+          <p class="text-gray-600 text-xs sm:text-base">Up to <span class="text-solar-orange font-bold">40%</span> AD benefit.</p>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
+        <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=400&q=80" alt="Quick return on investment" class="w-full h-28 sm:h-36 object-cover">
+        <div class="p-4 sm:p-6">
+          <h3 class="text-sm sm:text-xl font-bold text-gray-800 mb-1 sm:mb-2">⏱️ Quick ROI</h3>
+          <p class="text-gray-600 text-xs sm:text-base"><span class="text-solar-orange font-bold">3-4 years</span> payback period.</p>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2">
+        <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&q=80" alt="Go green with solar" class="w-full h-28 sm:h-36 object-cover">
+        <div class="p-4 sm:p-6">
+          <h3 class="text-sm sm:text-xl font-bold text-gray-800 mb-1 sm:mb-2">🌳 Go Green</h3>
+          <p class="text-gray-600 text-xs sm:text-base">1KWP = <span class="text-solar-orange font-bold">50 trees</span> equivalent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Government Subsidy Section -->
+<section class="py-10 sm:py-16 bg-gradient-to-r from-solar-green to-teal-700 text-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
+      <div class="flex-1 text-center md:text-left">
+        <p class="text-yellow-300 font-semibold mb-1 sm:mb-2 text-xs sm:text-base">Ministry of New and Renewable Energy</p>
+        <h2 class="text-xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">पीएम सूर्य घर मुफ्त बिजली योजना</h2>
+        <p class="text-base sm:text-xl mb-2 sm:mb-4">PM Surya Ghar Muft Bijli Yojana</p>
+        <p class="text-gray-200 mb-4 sm:mb-6 text-sm sm:text-base">
+          Get subsidy up to
+        </p>
+        <div class="bg-white/20 backdrop-blur rounded-lg sm:rounded-xl p-4 sm:p-6 inline-block">
+          <span class="text-3xl sm:text-5xl font-bold text-yellow-300">₹78,000</span>
+          <span class="text-sm sm:text-xl ml-1 sm:ml-2">Subsidy</span>
+        </div>
+      </div>
+      <div class="flex-1 flex justify-center w-full">
+        <div class="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 text-gray-800 w-full max-w-md">
+          <h3 class="text-base sm:text-xl font-bold mb-3 sm:mb-4 text-solar-green">Easy Finance Options</h3>
+          <ul class="space-y-2 sm:space-y-3 text-sm sm:text-base">
+            <li class="flex items-center gap-2 sm:gap-3"><span class="text-solar-orange">✓</span> Instant EMI</li>
+            <li class="flex items-center gap-2 sm:gap-3"><span class="text-solar-orange">✓</span> Min Documentation</li>
+            <li class="flex items-center gap-2 sm:gap-3"><span class="text-solar-orange">✓</span> No Collateral</li>
+            <li class="flex items-center gap-2 sm:gap-3"><span class="text-solar-orange">✓</span> Low Interest</li>
+          </ul>
+          <a href="/contact" class="mt-4 sm:mt-6 block text-center bg-solar-orange text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-orange-600 transition text-sm sm:text-base">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-12 sm:py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8 sm:mb-12">
+      <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">Our <span class="text-solar-orange">Services</span></h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">Comprehensive solar solutions for every need</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+      <div class="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg">
+        <div class="h-48 sm:h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600')"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
+          <h3 class="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">Residential</h3>
+          <p class="text-gray-300 mb-2 sm:mb-4 text-xs sm:text-base line-clamp-2">Power your home with clean energy.</p>
+          <a href="/services" class="inline-block bg-solar-orange px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-orange-600 transition">
+            Learn More →
+          </a>
+        </div>
+      </div>
+      
+      <div class="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg">
+        <div class="h-48 sm:h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=600')"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
+          <h3 class="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">Commercial</h3>
+          <p class="text-gray-300 mb-2 sm:mb-4 text-xs sm:text-base line-clamp-2">Reduce costs and enhance sustainability.</p>
+          <a href="/services" class="inline-block bg-solar-orange px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-orange-600 transition">
+            Learn More →
+          </a>
+        </div>
+      </div>
+      
+      <div class="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg sm:col-span-2 md:col-span-1">
+        <div class="h-48 sm:h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600')"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
+          <h3 class="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">Institutional</h3>
+          <p class="text-gray-300 mb-2 sm:mb-4 text-xs sm:text-base line-clamp-2">Solutions for schools and hospitals.</p>
+          <a href="/services" class="inline-block bg-solar-orange px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-orange-600 transition">
+            Learn More →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Customer Success Stories Section -->
+<section class="py-16 sm:py-24 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        Customer <span class="text-solar-orange">Success Stories</span>
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+        Hear from our satisfied customers who have transformed their energy consumption
+      </p>
+    </div>
+    
+    <!-- Testimonials Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 relative">
+        <div class="absolute top-4 right-4 text-6xl text-solar-orange/20 font-serif">"</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-solar-orange rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            RS
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800">Rajesh Sharma</h4>
+            <p class="text-gray-500 text-sm">Residential Customer, Bhopal</p>
+          </div>
+        </div>
+        <div class="flex gap-1 mb-4">
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+        </div>
+        <p class="text-gray-600 mb-4">
+          "Excellent service! The team was professional from start to finish. My electricity bill has reduced by 60% since installation. Highly recommend Aarna Solars!"
+        </p>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span class="text-solar-green">✓</span>
+          <span>5kW Residential System</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span class="text-solar-green">✓</span>
+          <span>Saving ₹45,000/year</span>
+        </div>
+      </div>
+      
+      <!-- Testimonial 2 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 relative">
+        <div class="absolute top-4 right-4 text-6xl text-solar-orange/20 font-serif">"</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-solar-green rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            PK
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800">Priya Kumar</h4>
+            <p class="text-gray-500 text-sm">School Administrator, Indore</p>
+          </div>
+        </div>
+        <div class="flex gap-1 mb-4">
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+        </div>
+        <p class="text-gray-600 mb-4">
+          "Aarna Solars installed a 25kW system for our school. The process was smooth, and the team handled everything including subsidy paperwork. Great ROI!"
+        </p>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span class="text-solar-green">✓</span>
+          <span>25kW Institutional System</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span class="text-solar-green">✓</span>
+          <span>Saving ₹2.2L/year</span>
+        </div>
+      </div>
+      
+      <!-- Testimonial 3 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 relative">
+        <div class="absolute top-4 right-4 text-6xl text-solar-orange/20 font-serif">"</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-solar-orange rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            AM
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800">Amit Mehta</h4>
+            <p class="text-gray-500 text-sm">Factory Owner, Jabalpur</p>
+          </div>
+        </div>
+        <div class="flex gap-1 mb-4">
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+        </div>
+        <p class="text-gray-600 mb-4">
+          "Professional industrial solar installation. The team understood our requirements and delivered on time. Our energy costs have dropped significantly."
+        </p>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span class="text-solar-green">✓</span>
+          <span>100kW Industrial System</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span class="text-solar-green">✓</span>
+          <span>Saving ₹9L/year</span>
+        </div>
+      </div>
+      
+      <!-- Testimonial 4 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 relative">
+        <div class="absolute top-4 right-4 text-6xl text-solar-orange/20 font-serif">"</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-solar-green rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            SK
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800">Sunita Kumar</h4>
+            <p class="text-gray-500 text-sm">Homeowner, Satna</p>
+          </div>
+        </div>
+        <div class="flex gap-1 mb-4">
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+        </div>
+        <p class="text-gray-600 mb-4">
+          "The installation was completed within the promised timeframe. The team was courteous and cleaned up after installation. Very satisfied with the results!"
+        </p>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span class="text-solar-green">✓</span>
+          <span>3kW Residential System</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span class="text-solar-green">✓</span>
+          <span>Saving ₹27,000/year</span>
+        </div>
+      </div>
+      
+      <!-- Testimonial 5 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 relative">
+        <div class="absolute top-4 right-4 text-6xl text-solar-orange/20 font-serif">"</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-solar-orange rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            VP
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800">Vikram Patel</h4>
+            <p class="text-gray-500 text-sm">Hospital Director, Rewa</p>
+          </div>
+        </div>
+        <div class="flex gap-1 mb-4">
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+        </div>
+        <p class="text-gray-600 mb-4">
+          "Excellent after-sales service. The team promptly addressed our concerns and provided regular maintenance. Our hospital now runs on clean energy!"
+        </p>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span class="text-solar-green">✓</span>
+          <span>30kW Healthcare System</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span class="text-solar-green">✓</span>
+          <span>Saving ₹2.7L/year</span>
+        </div>
+      </div>
+      
+      <!-- Testimonial 6 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 relative">
+        <div class="absolute top-4 right-4 text-6xl text-solar-orange/20 font-serif">"</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-solar-green rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            NJ
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800">Neha Joshi</h4>
+            <p class="text-gray-500 text-sm">Restaurant Owner, Sagar</p>
+          </div>
+        </div>
+        <div class="flex gap-1 mb-4">
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+          <span class="text-yellow-400 text-xl">★</span>
+        </div>
+        <p class="text-gray-600 mb-4">
+          "Best investment for our restaurant! The solar system has significantly reduced our operating costs. The team was professional and knowledgeable."
+        </p>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span class="text-solar-green">✓</span>
+          <span>10kW Commercial System</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span class="text-solar-green">✓</span>
+          <span>Saving ₹90,000/year</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stats Summary -->
+    <div class="mt-12 bg-gradient-to-r from-solar-orange to-orange-500 rounded-2xl p-8 text-white">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <p class="text-4xl font-bold mb-2">300+</p>
+          <p class="text-sm opacity-90">Happy Customers</p>
+        </div>
+        <div>
+          <p class="text-4xl font-bold mb-2">4.9/5</p>
+          <p class="text-sm opacity-90">Average Rating</p>
+        </div>
+        <div>
+          <p class="text-4xl font-bold mb-2">98%</p>
+          <p class="text-sm opacity-90">Satisfaction Rate</p>
+        </div>
+        <div>
+          <p class="text-4xl font-bold mb-2">25+</p>
+          <p class="text-sm opacity-90">Years Warranty</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Testimonials Section -->
+<section class="py-16 sm:py-24 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        Video <span class="text-solar-orange">Testimonials</span>
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+        Watch our customers share their solar journey with Aarna Solars
+      </p>
+    </div>
+    
+    <!-- Video Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <!-- Video 1 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg bg-gray-100">
+        <div class="aspect-video bg-gradient-to-br from-solar-orange to-orange-500 flex items-center justify-center">
+          <div class="text-center text-white">
+            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-white/30 transition group-hover:scale-110">
+              <span class="text-4xl">▶</span>
+            </div>
+            <p class="font-semibold">Rajesh Sharma's Story</p>
+            <p class="text-sm opacity-80">Residential, Bhopal</p>
+          </div>
+        </div>
+        <div class="p-4">
+          <p class="text-gray-600 text-sm">"60% reduction in electricity bills within 3 months"</p>
+        </div>
+      </div>
+      
+      <!-- Video 2 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg bg-gray-100">
+        <div class="aspect-video bg-gradient-to-br from-solar-green to-teal-600 flex items-center justify-center">
+          <div class="text-center text-white">
+            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-white/30 transition group-hover:scale-110">
+              <span class="text-4xl">▶</span>
+            </div>
+            <p class="font-semibold">AKS University Project</p>
+            <p class="text-sm opacity-80">Institutional, Satna</p>
+          </div>
+        </div>
+        <div class="p-4">
+          <p class="text-gray-600 text-sm">"100kW system powering entire campus sustainably"</p>
+        </div>
+      </div>
+      
+      <!-- Video 3 -->
+      <div class="group relative overflow-hidden rounded-2xl shadow-lg bg-gray-100">
+        <div class="aspect-video bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+          <div class="text-center text-white">
+            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-white/30 transition group-hover:scale-110">
+              <span class="text-4xl">▶</span>
+            </div>
+            <p class="font-semibold">Mahakoshi Industries</p>
+            <p class="text-sm opacity-80">Industrial, Katni</p>
+          </div>
+        </div>
+        <div class="p-4">
+          <p class="text-gray-600 text-sm">"1523kW installation completed in record time"</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-8">
+      <a href="/portfolio" class="inline-flex items-center gap-2 bg-solar-orange text-white px-8 py-4 rounded-full font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl">
+        View All Project Videos
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Badges and Certifications Section -->
+<section class="py-16 sm:py-24 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        Trust & <span class="text-solar-orange">Certifications</span>
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+        Our credentials and partnerships that assure quality and reliability
+      </p>
+    </div>
+    
+    <!-- Trust Badges -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
+      <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-lg transition">
+        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span class="text-3xl">🏆</span>
+        </div>
+        <p class="font-semibold text-gray-800 text-sm">TATA Power Partner</p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-lg transition">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span class="text-3xl">✓</span>
+        </div>
+        <p class="font-semibold text-gray-800 text-sm">ISO 9001:2015</p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-lg transition">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span class="text-3xl">🇮🇳</span>
+        </div>
+        <p class="font-semibold text-gray-800 text-sm">Make in India</p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-lg transition">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span class="text-3xl">⭐</span>
+        </div>
+        <p class="font-semibold text-gray-800 text-sm">MNRE Certified</p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-lg transition">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span class="text-3xl">🛡️</span>
+        </div>
+        <p class="font-semibold text-gray-800 text-sm">25 Year Warranty</p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-lg transition">
+        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span class="text-3xl">⚡</span>
+        </div>
+        <p class="font-semibold text-gray-800 text-sm">BIS Certified</p>
+      </div>
+    </div>
+    
+    <!-- Case Studies Preview -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+      <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Featured Case Studies</h3>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Case Study 1 -->
+        <div class="border-2 border-gray-100 rounded-xl p-6 hover:border-solar-orange transition">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 bg-solar-orange rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+              92%
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-800">Mahakoshi Refractories</h4>
+              <p class="text-sm text-gray-500">Cost Reduction Success</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mb-4">1523kW industrial installation resulting in 92% reduction in energy costs and ₹1.8L monthly savings.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-solar-orange/10 text-solar-orange px-2 py-1 rounded-full text-xs font-medium">Industrial</span>
+            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">High ROI</span>
+            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">Large Scale</span>
+          </div>
+        </div>
+        
+        <!-- Case Study 2 -->
+        <div class="border-2 border-gray-100 rounded-xl p-6 hover:border-solar-orange transition">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 bg-solar-green rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+              100%
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-800">AKS University</h4>
+              <p class="text-sm text-gray-500">Campus Sustainability</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mb-4">100kW installation making the university campus 100% solar powered with ₹2.2L annual savings.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-solar-orange/10 text-solar-orange px-2 py-1 rounded-full text-xs font-medium">Educational</span>
+            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Green Campus</span>
+            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-medium">Net Zero</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-6">
+        <a href="/portfolio" class="inline-flex items-center gap-2 bg-solar-green text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+          View All Case Studies
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-10 sm:py-16 bg-solar-orange text-white">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
+      <div>
+        <p class="text-3xl sm:text-5xl font-bold mb-1 sm:mb-2">300+</p>
+        <p class="text-xs sm:text-lg opacity-90">Residential</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-5xl font-bold mb-1 sm:mb-2">26+</p>
+        <p class="text-xs sm:text-lg opacity-90">Industrial</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-5xl font-bold mb-1 sm:mb-2">18 MW+</p>
+        <p class="text-xs sm:text-lg opacity-90">Capacity</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-5xl font-bold mb-1 sm:mb-2">6</p>
+        <p class="text-xs sm:text-lg opacity-90">Districts</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio Preview -->
+<section class="py-12 sm:py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8 sm:mb-12">
+      <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">Our <span class="text-solar-orange">Portfolio</span></h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">Trusted by leading industries across M.P.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
+      <!-- Industrial Highlights -->
+      <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-8">
+        <h3 class="text-base sm:text-2xl font-bold text-solar-green mb-4 sm:mb-6 flex items-center gap-2">
+          <span>🏭</span> Industrial
+        </h3>
+        <div class="space-y-2 sm:space-y-4">
+          <% portfolio.industrial.slice(0, 3).forEach(function(project) { %>
+          <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-gray-800 text-xs sm:text-base truncate"><%= project.name %></p>
+              <p class="text-[10px] sm:text-sm text-gray-500 truncate"><%= project.location %></p>
+            </div>
+            <span class="bg-solar-orange/10 text-solar-orange px-2 sm:px-3 py-0.5 sm:py-1 rounded-full font-semibold text-[10px] sm:text-sm ml-2 flex-shrink-0"><%= project.capacity %></span>
+          </div>
+          <% }); %>
+        </div>
+        <a href="/portfolio" class="mt-4 sm:mt-6 inline-block text-solar-orange font-semibold hover:underline text-xs sm:text-base">View All →</a>
+      </div>
+      
+      <!-- Institutional Highlights -->
+      <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-8">
+        <h3 class="text-base sm:text-2xl font-bold text-solar-green mb-4 sm:mb-6 flex items-center gap-2">
+          <span>🏫</span> Institutional
+        </h3>
+        <div class="space-y-2 sm:space-y-4">
+          <% portfolio.institutional.slice(0, 3).forEach(function(project) { %>
+          <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-gray-800 text-xs sm:text-base truncate"><%= project.name %></p>
+              <p class="text-[10px] sm:text-sm text-gray-500 truncate"><%= project.location %></p>
+            </div>
+            <span class="bg-solar-green/10 text-solar-green px-2 sm:px-3 py-0.5 sm:py-1 rounded-full font-semibold text-[10px] sm:text-sm ml-2 flex-shrink-0"><%= project.capacity %></span>
+          </div>
+          <% }); %>
+        </div>
+        <a href="/portfolio" class="mt-4 sm:mt-6 inline-block text-solar-green font-semibold hover:underline text-xs sm:text-base">View All →</a>
+      </div>
+    </div>
+    
+    <!-- Domestic Stats -->
+    <div class="bg-gradient-to-r from-solar-green to-teal-700 rounded-xl sm:rounded-2xl p-4 sm:p-8 text-white text-center">
+      <h3 class="text-base sm:text-2xl font-bold mb-3 sm:mb-4">🏠 Domestic Installation</h3>
+      <div class="flex flex-wrap justify-center gap-4 sm:gap-8">
+        <div>
+          <p class="text-2xl sm:text-4xl font-bold text-yellow-300"><%= portfolio.domestic.clients %></p>
+          <p class="text-xs sm:text-lg">Households</p>
+        </div>
+        <div>
+          <p class="text-2xl sm:text-4xl font-bold text-yellow-300"><%= portfolio.domestic.capacity %></p>
+          <p class="text-xs sm:text-lg">Capacity</p>
+        </div>
+        <div>
+          <p class="text-2xl sm:text-4xl font-bold text-yellow-300"><%= portfolio.domestic.region %></p>
+          <p class="text-xs sm:text-lg">Region</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solar Benefits Stories -->
+<section class="py-12 sm:py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8 sm:mb-12">
+      <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">Solar <span class="text-solar-orange">Success Stories</span></h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">Real benefits experienced by families and businesses across Madhya Pradesh</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
+      <div class="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group">
+        <div class="relative h-52 sm:h-64 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Residential solar installation" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 bg-solar-orange text-white px-3 py-1 rounded-full text-xs font-semibold">Residential</div>
+        </div>
+        <div class="p-5 sm:p-6 bg-white">
+          <h3 class="text-lg font-bold text-gray-800 mb-2">Family Saves ₹8,000/Month</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">A 5kW rooftop system transformed this Satna family's energy bills. With net metering, they now earn credits from surplus power sent back to the grid.</p>
+        </div>
+      </div>
+      
+      <div class="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group">
+        <div class="relative h-52 sm:h-64 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=600&q=80" alt="Commercial solar farm" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 bg-solar-green text-white px-3 py-1 rounded-full text-xs font-semibold">Commercial</div>
+        </div>
+        <div class="p-5 sm:p-6 bg-white">
+          <h3 class="text-lg font-bold text-gray-800 mb-2">Factory Cuts Costs by 60%</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">A 100kW industrial installation in Katni reduced operating costs drastically. The 40% accelerated depreciation benefit made ROI achievable in under 3 years.</p>
+        </div>
+      </div>
+      
+      <div class="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group">
+        <div class="relative h-52 sm:h-64 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80" alt="Solar panels on institution" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 bg-tata-blue text-white px-3 py-1 rounded-full text-xs font-semibold">Institutional</div>
+        </div>
+        <div class="p-5 sm:p-6 bg-white">
+          <h3 class="text-lg font-bold text-gray-800 mb-2">School Goes 100% Solar</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">A Shahdol school installed 25kW of solar panels, eliminating electricity bills entirely. The savings fund scholarships for underprivileged students.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="relative min-h-[240px] py-16 sm:py-24 overflow-hidden">
+  <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80" alt="Solar panels field" class="absolute inset-0 w-full h-full object-cover object-center">
+  <div class="absolute inset-0 bg-gradient-to-r from-solar-green/90 to-teal-800/90"></div>
+  <div class="relative container mx-auto px-4 text-center text-white">
+    <h2 class="text-xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">Ready to Go Solar?</h2>
+    <p class="max-w-2xl mx-auto mb-6 sm:mb-8 text-sm sm:text-base opacity-90">Join hundreds of satisfied customers who switched to solar.</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+      <a href="/contact" class="bg-solar-orange text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-orange-600 transition shadow-lg text-sm sm:text-base">
+        Get Free Quote
+      </a>
+      <a href="tel:18004198777" class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-white hover:text-solar-green transition shadow-lg text-sm sm:text-base">
+        📞 1800 419 8777
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('callbackForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const phone = this.phone.value;
+    const msgEl = document.getElementById('callbackMessage');
+    
+    try {
+      const res = await fetch('/api/callback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json();
+      msgEl.textContent = data.message;
+      msgEl.classList.remove('hidden', 'text-red-600');
+      msgEl.classList.add('text-green-600');
+      this.reset();
+    } catch (err) {
+      msgEl.textContent = 'Failed to submit. Please try again.';
+      msgEl.classList.remove('hidden', 'text-green-600');
+      msgEl.classList.add('text-red-600');
+    }
+  });
+</script>
+
+<!-- WhatsApp Popup Script -->
+<script>
+let whatsappPopupShown = false;
+
+function showWhatsAppPopup() {
+  if (!whatsappPopupShown) {
+    document.getElementById('whatsappPopup').classList.remove('hidden');
+    whatsappPopupShown = true;
+  }
+}
+
+function closeWhatsAppPopup() {
+  document.getElementById('whatsappPopup').classList.add('hidden');
+}
+
+// Show popup after scrolling 30% of the page
+window.addEventListener('scroll', function() {
+  const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  if (scrollPercent > 30 && !whatsappPopupShown) {
+    showWhatsAppPopup();
+  }
+});
+</script>
+
+<%- include('partials/footer') %>

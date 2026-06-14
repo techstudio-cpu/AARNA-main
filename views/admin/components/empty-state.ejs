@@ -1,0 +1,50 @@
+<% 
+  // Empty State Component
+  // Props:
+  //   icon (optional) - Emoji/icon character (default: '📭')
+  //   title (required) - Main message
+  //   description (optional) - Secondary text
+  //   action (optional) - Action button: { label: 'Create', onClick: 'createItem()' }
+  
+  const emptyIcon = icon || '📭';
+%>
+
+<div style="
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+">
+  <div style="
+    font-size: 64px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+  "><%= emptyIcon %></div>
+  
+  <h3 style="
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    color: var(--text-primary);
+    font-weight: 600;
+  "><%= title %></h3>
+  
+  <% if (description) { %>
+    <p style="
+      margin: 0 0 24px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 400px;
+    "><%= description %></p>
+  <% } %>
+  
+  <% if (action) { %>
+    <button 
+      class="btn btn--primary"
+      onclick="<%= action.onClick %>"
+    >
+      <span>+</span> <%= action.label %>
+    </button>
+  <% } %>
+</div>

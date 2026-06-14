@@ -1,0 +1,3 @@
+Cache bust - Railway deployment trigger
+Timestamp: 2025-01-14T17:45:00Z
+Purpose: Force fresh Nixpacks build without cache

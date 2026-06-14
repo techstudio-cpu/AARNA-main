@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Dashboard - Aarna Solars Admin</title>
+</head>
+<body>
+  <div class="app-container">
+    <%- include('partials/sidebar') %>
+    
+    <main class="main-content">
+      <%- include('partials/header', { title: 'Dashboard' }) %>
+      
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>👥</span> Total Leads
+          </div>
+          <div class="kpi-value"><%= stats.totalLeads || 0 %></div>
+          <div class="kpi-change up">
+            <span>↑</span> <%= stats.leadsGrowth || 0 %>%
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>✅</span> Converted
+          </div>
+          <div class="kpi-value"><%= stats.convertedLeads || 0 %></div>
+          <div class="kpi-change up">
+            <span>↑</span> <%= stats.conversionRate || 0 %>%
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>📄</span> Quotes Generated
+          </div>
+          <div class="kpi-value"><%= stats.quotesGenerated || 0 %></div>
+          <div class="kpi-change up">
+            <span>↑</span> <%= stats.quotesGrowth || 0 %>%
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>📅</span> Pending Follow-ups
+          </div>
+          <div class="kpi-value"><%= stats.pendingFollowUps || 0 %></div>
+          <div class="kpi-change <%= stats.pendingFollowUps > 10 ? 'down' : 'up' %>">
+            <span><%= stats.pendingFollowUps > 10 ? '↓' : '↑' %></span> 
+            <%= stats.pendingFollowUps > 10 ? 'Action Needed' : 'On Track' %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pipeline Overview -->
+      <div class="pipeline-container">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">📈</div>
+            Lead Pipeline
+          </div>
+          <button class="btn-primary" onclick="showSection('pipeline')">
+            View Full Pipeline →
+          </button>
+        </div>
+        
+        <div class="pipeline-board">
+          <% pipelineStages.forEach(stage => { %>
+          <div class="pipeline-column">
+            <div class="pipeline-header">
+              <%= stage.name %>
+              <span class="pipeline-count"><%= stage.count %></span>
+            </div>
+            <% stage.leads.slice(0, 3).forEach(lead => { %>
+            <div class="pipeline-card" onclick="openLeadModal('<%= lead.id %>')">
+              <div class="pipeline-card-name"><%= lead.name %></div>
+              <div class="pipeline-card-phone"><%= lead.phone %></div>
+              <div class="pipeline-card-meta">
+                <span class="pipeline-value">₹<%= lead.value || 0 %></span>
+                <span style="font-size: 10px; color: var(--text-muted);">
+                  <%= lead.daysAgo %>d ago
+                </span>
+              </div>
+            </div>
+            <% }) %>
+            <% if (stage.leads.length > 3) { %>
+            <div style="text-align: center; padding: 8px; font-size: 12px; color: var(--text-muted);">
+              +<%= stage.leads.length - 3 %> more
+            </div>
+            <% } %>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      
+      <!-- Recent Activity with Timeline -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">🕐</div>
+            Recent Activity Timeline
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-secondary" onclick="filterActivity('all')">All</button>
+            <button class="btn-secondary" onclick="filterActivity('leads')">Leads</button>
+            <button class="btn-secondary" onclick="filterActivity('quotes')">Quotes</button>
+          </div>
+        </div>
+        
+        <div class="activity-timeline">
+          <% recentActivities.forEach((activity, index) => { %>
+          <div class="timeline-item" data-type="<%= activity.type || 'all' %>">
+            <div class="timeline-dot <%= activity.status === 'high' ? 'high-priority' : '' %>"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <div class="timeline-icon"><%= activity.icon %></div>
+                <div class="timeline-info">
+                  <div class="timeline-title"><%= activity.text %></div>
+                  <div class="timeline-time"><%= activity.time %></div>
+                </div>
+                <% if (activity.leadId) { %>
+                <button class="timeline-action" onclick="openLeadModal('<%= activity.leadId %>')">View Lead</button>
+                <% } %>
+              </div>
+              <% if (activity.details) { %>
+              <div class="timeline-details"><%= activity.details %></div>
+              <% } %>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      
+      <!-- Quick Actions Panel -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">⚡</div>
+            Quick Actions
+          </div>
+        </div>
+        
+        <div class="quick-actions-grid">
+          <button class="quick-action-btn" onclick="window.location.href='/admin/leads/new'">
+            <span class="action-icon">➕</span>
+            <span class="action-label">Add Lead</span>
+          </button>
+          <button class="quick-action-btn" onclick="window.location.href='/admin/quotations/new'">
+            <span class="action-icon">📄</span>
+            <span class="action-label">Create Quote</span>
+          </button>
+          <button class="quick-action-btn" onclick="showFollowUpModal()">
+            <span class="action-icon">📞</span>
+            <span class="action-label">Follow Up</span>
+          </button>
+          <button class="quick-action-btn" onclick="window.location.href='/admin/analytics'">
+            <span class="action-icon">📊</span>
+            <span class="action-label">View Reports</span>
+          </button>
+          <button class="quick-action-btn" onclick="exportData()">
+            <span class="action-icon">📥</span>
+            <span class="action-label">Export Data</span>
+          </button>
+          <button class="quick-action-btn" onclick="scheduleReport()">
+            <span class="action-icon">📅</span>
+            <span class="action-label">Schedule Report</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <%- include('partials/footer') %>
+  <%- include('components/modal') %>
+  
+  <script>
+    // Enhanced Dashboard JavaScript
+    function refreshData() {
+      location.reload();
+    }
+    
+    function openLeadModal(id) {
+      currentLeadId = id;
+      document.getElementById('leadModal').classList.add('active');
+      fetch('/api/leads/' + id)
+        .then(res => res.json())
+        .then(lead => renderLeadModal(lead))
+        .catch(() => {
+          document.getElementById('modalBody').innerHTML = '<p style="color: var(--danger);">Failed to load lead</p>';
+        });
+    }
+    
+    function filterActivity(type) {
+      const items = document.querySelectorAll('.timeline-item');
+      items.forEach(item => {
+        if (type === 'all' || item.dataset.type === type) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+    
+    function showFollowUpModal() {
+      document.getElementById('modalTitle').textContent = 'Schedule Follow-up';
+      document.getElementById('modalBody').innerHTML = `
+        <form id="followUpForm" style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label style="display: block; font-weight: 500; margin-bottom: 8px;">Select Lead</label>
+            <select id="followUpLead" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+              <option value="">Choose a lead...</option>
+              <% recentLeads.forEach(lead => { %>
+              <option value="<%= lead.id %>"><%= lead.name %> - <%= lead.phone %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-weight: 500; margin-bottom: 8px;">Follow-up Date</label>
+            <input type="date" id="followUpDate" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+          </div>
+          <div>
+            <label style="display: block; font-weight: 500; margin-bottom: 8px;">Notes</label>
+            <textarea id="followUpNotes" rows="3" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="align-self: flex-start;">Schedule Follow-up</button>
+        </form>
+      `;
+      document.getElementById('leadModal').classList.add('active');
+      
+      document.getElementById('followUpForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Submit logic here
+        alert('Follow-up scheduled successfully!');
+        document.getElementById('leadModal').classList.remove('active');
+        refreshData();
+      });
+    }
+    
+    function exportData() {
+      const format = prompt('Export format:', 'csv');
+      if (format) {
+        window.location.href = `/api/export?format=${format}`;
+      }
+    }
+    
+    function scheduleReport() {
+      document.getElementById('modalTitle').textContent = 'Schedule Report';
+      document.getElementById('modalBody').innerHTML = `
+        <form id="reportForm" style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label style="display: block; font-weight: 500; margin-bottom: 8px;">Report Type</label>
+            <select required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+              <option value="leads">Lead Report</option>
+              <option value="quotes">Quote Report</option>
+              <option value="conversion">Conversion Report</option>
+              <option value="revenue">Revenue Report</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-weight: 500; margin-bottom: 8px;">Frequency</label>
+            <select required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary" style="align-self: flex-start;">Schedule Report</button>
+        </form>
+      `;
+      document.getElementById('leadModal').classList.add('active');
+    }
+    
+    // Auto-refresh dashboard every 5 minutes
+    setInterval(refreshData, 300000);
+  </script>
+</body>
+</html>

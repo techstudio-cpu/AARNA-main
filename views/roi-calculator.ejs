@@ -1,0 +1,339 @@
+<%- include('partials/header') %>
+
+<!-- ROI Calculator Section -->
+<section class="py-16 sm:py-24 bg-gradient-to-br from-solar-orange to-orange-500">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          Solar ROI Calculator
+        </h1>
+        <p class="text-white/80 text-lg sm:text-xl max-w-2xl mx-auto">
+          Calculate your return on investment for solar energy system
+        </p>
+      </div>
+      
+      <!-- Calculator Card -->
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div class="bg-gradient-to-r from-solar-green to-teal-700 text-white p-6 text-center">
+          <p class="text-lg font-semibold">💰 Calculate Your Solar Savings & ROI</p>
+        </div>
+        
+        <div class="p-6 sm:p-8">
+          <form id="roiForm" class="space-y-6">
+            <!-- Current Monthly Bill -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Current Monthly Electricity Bill (₹) *</label>
+              <input type="number" id="monthlyBill" min="1000" required 
+                placeholder="Enter your monthly electricity bill"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+            </div>
+            
+            <!-- System Capacity -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Desired Solar System Capacity (kW) *</label>
+              <input type="number" id="systemCapacity" min="1" max="100" step="0.5" required 
+                placeholder="Enter system capacity in kW (e.g., 3, 5, 10)"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+              <p class="text-sm text-gray-500 mt-1">Based on your bill, recommended: <span id="recommendedCapacity">0 kW</span></p>
+            </div>
+            
+            <!-- System Type -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">System Type *</label>
+              <select id="systemType" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select System Type</option>
+                <option value="on-grid">On-Grid System (with net metering)</option>
+                <option value="off-grid">Off-Grid System (with battery)</option>
+                <option value="hybrid">Hybrid System (grid + battery)</option>
+              </select>
+            </div>
+            
+            <!-- Roof Space Available -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Available Roof Space (sq. ft.) *</label>
+              <input type="number" id="roofSpace" min="100" required 
+                placeholder="Enter available roof space"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+              <p class="text-sm text-gray-500 mt-1">Approximately 100 sq. ft. required per kW</p>
+            </div>
+            
+            <!-- Financing Option -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Financing Option *</label>
+              <select id="financing" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Payment Option</option>
+                <option value="full-upfront">Full Upfront Payment</option>
+                <option value="emi">EMI / Loan</option>
+                <option value="lease">Solar Lease</option>
+              </select>
+            </div>
+            
+            <!-- Location -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Location *</label>
+              <select id="location" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Location</option>
+                <option value="bhopal">Bhopal</option>
+                <option value="indore">Indore</option>
+                <option value="jabalpur">Jabalpur</option>
+                <option value="rewa">Rewa</option>
+                <option value="satna">Satna</option>
+                <option value="sagar">Sagar</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="w-full bg-gradient-to-r from-solar-orange to-orange-500 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+              <span>Calculate ROI</span>
+              <span>→</span>
+            </button>
+          </form>
+          
+          <!-- Results Section (Hidden by default) -->
+          <div id="resultsSection" class="hidden mt-8">
+            <div class="bg-gray-50 rounded-2xl p-6 sm:p-8">
+              <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Your Solar Investment Analysis</h3>
+              
+              <!-- Summary Cards -->
+              <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                  <p class="text-sm text-gray-500 mb-2">System Cost</p>
+                  <p class="text-2xl font-bold text-solar-orange" id="systemCost">₹0</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                  <p class="text-sm text-gray-500 mb-2">Government Subsidy</p>
+                  <p class="text-2xl font-bold text-green-600" id="govSubsidy">₹0</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                  <p class="text-sm text-gray-500 mb-2">Net Investment</p>
+                  <p class="text-2xl font-bold text-gray-800" id="netInvestment">₹0</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                  <p class="text-sm text-gray-500 mb-2">Annual Savings</p>
+                  <p class="text-2xl font-bold text-solar-green" id="annualSavings">₹0</p>
+                </div>
+              </div>
+              
+              <!-- ROI Details -->
+              <div class="bg-white rounded-xl p-6 shadow-md mb-6">
+                <h4 class="font-bold text-gray-800 mb-4">📊 Return on Investment Analysis</h4>
+                <div class="space-y-4">
+                  <div>
+                    <div class="flex justify-between mb-1">
+                      <span class="text-gray-600">Payback Period</span>
+                      <span class="font-semibold" id="paybackPeriod">0 years</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div id="paybackBar" class="bg-solar-orange h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div class="flex justify-between mb-1">
+                      <span class="text-gray-600">25-Year ROI</span>
+                      <span class="font-semibold" id="roi25">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div id="roi25Bar" class="bg-solar-green h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                  </div>
+                  
+                  <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t">
+                    <div class="text-center">
+                      <p class="text-xs text-gray-500">5-Year Savings</p>
+                      <p class="font-bold text-gray-800" id="savings5">₹0</p>
+                    </div>
+                    <div class="text-center">
+                      <p class="text-xs text-gray-500">10-Year Savings</p>
+                      <p class="font-bold text-gray-800" id="savings10">₹0</p>
+                    </div>
+                    <div class="text-center">
+                      <p class="text-xs text-gray-500">25-Year Savings</p>
+                      <p class="font-bold text-gray-800" id="savings25">₹0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Environmental Impact -->
+              <div class="bg-green-50 rounded-xl p-6 shadow-md mb-6">
+                <h4 class="font-bold text-gray-800 mb-4">🌍 Environmental Impact</h4>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="text-center">
+                    <p class="text-3xl mb-1">🌳</p>
+                    <p class="text-xs text-gray-500">Trees Equivalent</p>
+                    <p class="font-bold text-green-600" id="treesEquivalent">0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-3xl mb-1">💨</p>
+                    <p class="text-xs text-gray-500">CO₂ Reduction (tons/year)</p>
+                    <p class="font-bold text-green-600" id="co2Reduction">0</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Monthly Savings Breakdown -->
+              <div class="bg-white rounded-xl p-6 shadow-md">
+                <h4 class="font-bold text-gray-800 mb-4">💵 Monthly Savings Breakdown</h4>
+                <div class="space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Current Monthly Bill</span>
+                    <span class="font-semibold" id="currentMonthlyBill">₹0</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">After Solar Bill</span>
+                    <span class="font-semibold text-green-600" id="afterSolarBill">₹0</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Monthly Savings</span>
+                    <span class="font-semibold text-solar-orange" id="monthlySavings">₹0</span>
+                  </div>
+                  <hr class="my-3">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-800">Bill Reduction</span>
+                    <span class="font-bold text-xl text-green-600" id="billReduction">0%</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 flex flex-col sm:flex-row gap-4">
+                <a href="/contact" class="flex-1 bg-solar-orange text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition text-center">
+                  Get Free Quote
+                </a>
+                <a href="/subsidy-calculator" class="flex-1 bg-solar-green text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition text-center">
+                  Check Subsidy Eligibility
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Key Assumptions -->
+      <div class="mt-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white">
+        <h4 class="font-bold mb-4">📋 Key Assumptions:</h4>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>System cost: ₹60,000 per kW (approximately)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Average solar generation: 4.5 kWh per kW per day</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Electricity tariff: ₹8 per kWh (average)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>System degradation: 0.5% per year</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 mt-1">•</span>
+            <span>Government subsidy: ₹30,000 per kW (up to 3 kW)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Calculate recommended capacity based on monthly bill
+document.getElementById('monthlyBill').addEventListener('input', function() {
+  const monthlyBill = parseFloat(this.value) || 0;
+  const annualBill = monthlyBill * 12;
+  const ratePerKwh = 8;
+  const annualKwh = annualBill / ratePerKwh;
+  const dailyKwh = annualKwh / 365;
+  const systemCapacity = dailyKwh / 4.5; // 4.5 kWh per kW per day
+  
+  document.getElementById('recommendedCapacity').textContent = 
+    systemCapacity > 0 ? Math.ceil(systemCapacity * 2) / 2 + ' kW' : '0 kW';
+});
+
+document.getElementById('roiForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const monthlyBill = parseFloat(document.getElementById('monthlyBill').value);
+  const systemCapacity = parseFloat(document.getElementById('systemCapacity').value);
+  const systemType = document.getElementById('systemType').value;
+  const financing = document.getElementById('financing').value;
+  const location = document.getElementById('location').value;
+  
+  // Calculate system cost
+  const baseCostPerKw = 60000;
+  let systemCost = systemCapacity * baseCostPerKw;
+  
+  // Adjust for system type
+  if (systemType === 'off-grid') {
+    systemCost *= 1.4; // Battery backup adds 40%
+  } else if (systemType === 'hybrid') {
+    systemCost *= 1.25; // Hybrid adds 25%
+  }
+  
+  // Government subsidy
+  let govSubsidy = 0;
+  const eligibleCapacity = Math.min(systemCapacity, 3);
+  govSubsidy = eligibleCapacity * 30000;
+  
+  // Net investment
+  const netInvestment = systemCost - govSubsidy;
+  
+  // Calculate savings
+  const annualGeneration = systemCapacity * 4.5 * 365; // kWh per year
+  const annualSavings = annualGeneration * 8; // ₹8 per kWh
+  const monthlySavings = annualSavings / 12;
+  
+  // After solar bill
+  const afterSolarBill = Math.max(0, monthlyBill - monthlySavings);
+  const billReduction = ((monthlySavings / monthlyBill) * 100).toFixed(1);
+  
+  // Payback period
+  const paybackPeriod = netInvestment / annualSavings;
+  
+  // ROI calculations
+  const roi25 = ((annualSavings * 25 - netInvestment) / netInvestment * 100).toFixed(1);
+  
+  // Savings over time
+  const savings5 = annualSavings * 5;
+  const savings10 = annualSavings * 10;
+  const savings25 = annualSavings * 25;
+  
+  // Environmental impact
+  const treesEquivalent = Math.round(systemCapacity * 50); // 50 trees per kW
+  const co2Reduction = (annualGeneration * 0.7 / 1000).toFixed(1); // 0.7 kg CO2 per kWh
+  
+  // Update UI
+  document.getElementById('systemCost').textContent = '₹' + systemCost.toLocaleString('en-IN');
+  document.getElementById('govSubsidy').textContent = '₹' + govSubsidy.toLocaleString('en-IN');
+  document.getElementById('netInvestment').textContent = '₹' + netInvestment.toLocaleString('en-IN');
+  document.getElementById('annualSavings').textContent = '₹' + annualSavings.toLocaleString('en-IN');
+  
+  document.getElementById('paybackPeriod').textContent = paybackPeriod.toFixed(1) + ' years';
+  document.getElementById('paybackBar').style.width = Math.min((paybackPeriod / 8) * 100, 100) + '%';
+  
+  document.getElementById('roi25').textContent = roi25 + '%';
+  document.getElementById('roi25Bar').style.width = Math.min(roi25, 100) + '%';
+  
+  document.getElementById('savings5').textContent = '₹' + savings5.toLocaleString('en-IN');
+  document.getElementById('savings10').textContent = '₹' + savings10.toLocaleString('en-IN');
+  document.getElementById('savings25').textContent = '₹' + savings25.toLocaleString('en-IN');
+  
+  document.getElementById('treesEquivalent').textContent = treesEquivalent.toLocaleString('en-IN');
+  document.getElementById('co2Reduction').textContent = co2Reduction;
+  
+  document.getElementById('currentMonthlyBill').textContent = '₹' + monthlyBill.toLocaleString('en-IN');
+  document.getElementById('afterSolarBill').textContent = '₹' + afterSolarBill.toLocaleString('en-IN');
+  document.getElementById('monthlySavings').textContent = '₹' + monthlySavings.toLocaleString('en-IN');
+  document.getElementById('billReduction').textContent = billReduction + '%';
+  
+  // Show results
+  document.getElementById('resultsSection').classList.remove('hidden');
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+<%- include('partials/footer') %>

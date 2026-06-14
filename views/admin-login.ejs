@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login - Aarna Solars</title>
+  <meta name="theme-color" content="#0f172a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- TechStudio Theme CSS -->
+  <link rel="stylesheet" href="/css/admin-techstudio-variables.css">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--gradient-bg);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      min-height: 560px;
+    }
+    .login-hero {
+      background: var(--gradient-primary);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(232,119,34,0.15), transparent 70%);
+      border-radius: 50%;
+    }
+    .login-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(124,58,237,0.1), transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-logo-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .hero-logo-text {
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .hero-tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-desc {
+      font-size: 14px;
+      color: #94A3B8;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-features {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #CBD5E1;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .hero-features li .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(232,119,34,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-stat {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+    }
+    .hero-stat-value.blue { color: #F59E0B; }
+    .hero-stat-value.green { color: #4ADE80; }
+    .hero-stat-value.purple { color: #A78BFA; }
+    .hero-stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748B;
+      margin-top: 4px;
+    }
+
+    .login-form-section {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .form-tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .form-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .form-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .form-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+    .error-msg {
+      background: var(--danger-bg);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--danger-light);
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .form-input-wrap {
+      position: relative;
+    }
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 44px 0 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-input::placeholder { color: var(--text-disabled); }
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), var(--glow-primary);
+    }
+    .form-input-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      opacity: 0.5;
+    }
+    .btn-login {
+      width: 100%;
+      height: 48px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      box-shadow: var(--shadow-md);
+    }
+    .btn-login:hover {
+      background: var(--gradient-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--glow-primary);
+    }
+    .btn-login:active { transform: scale(0.98); }
+    .form-footer {
+      margin-top: 24px;
+      text-align: center;
+    }
+    .back-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .back-link:hover { color: var(--primary); }
+    .form-note {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    /* Tablet: hero gets compact */
+    @media (max-width: 1023px) {
+      .login-wrapper { max-width: 860px; }
+      .login-hero { padding: 36px 32px; }
+      .hero-title { font-size: 24px; }
+      .hero-desc { font-size: 13px; margin-bottom: 24px; }
+      .hero-stats { gap: 8px; margin-top: 24px; }
+      .hero-stat { padding: 12px 8px; }
+      .hero-stat-value { font-size: 18px; }
+      .login-form-section { padding: 36px 32px; }
+    }
+
+    /* Small tablet / large phone: hide hero, center form */
+    @media (max-width: 767px) {
+      body { padding: 16px; }
+      .login-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 440px;
+        min-height: auto;
+      }
+      .login-hero { display: none; }
+      .login-form-section { padding: 36px 28px; }
+      .form-title { font-size: 22px; }
+    }
+
+    /* Phone */
+    @media (max-width: 479px) {
+      body { padding: 12px; }
+      .login-wrapper { border-radius: 16px; }
+      .login-form-section { padding: 28px 20px; }
+      .form-title { font-size: 20px; }
+      .form-subtitle { font-size: 13px; margin-bottom: 24px; }
+      .form-input { height: 44px; font-size: 16px; }
+      .btn-login { height: 44px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-hero">
+      <div class="hero-logo">
+        <img src="/logo.png" alt="Aarna Solars" style="height: 60px; width: auto; object-fit: contain;">
+      </div>
+
+      <div class="hero-tag">Admin Portal</div>
+      <h1 class="hero-title">Manage your solar<br>lead pipeline</h1>
+      <p class="hero-desc">
+        Monitor every lead, track follow-ups, and stay in control with analytics built for the operations team.
+      </p>
+
+      <ul class="hero-features">
+        <li>
+          <span class="icon">📊</span>
+          Real-time status tracking & pipeline view
+        </li>
+        <li>
+          <span class="icon">📝</span>
+          Activity logs & communication notes
+        </li>
+        <li>
+          <span class="icon">📈</span>
+          Conversion analytics across all sources
+        </li>
+      </ul>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value blue">Pipeline</div>
+          <div class="hero-stat-label">Kanban View</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value green">Analytics</div>
+          <div class="hero-stat-label">Charts & Data</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value purple">Quotes</div>
+          <div class="hero-stat-label">Builder Tool</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-form-section">
+      <div class="form-tag">Secure Access</div>
+      <h2 class="form-title">Sign in</h2>
+      <p class="form-subtitle">Enter your credentials to access the admin dashboard.</p>
+
+      <% if (error) { %>
+        <div class="error-msg">
+          <span>⚠️</span>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <form action="/admin/login" method="POST">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <div class="form-input-wrap">
+            <input type="text" name="username" required placeholder="Enter username" class="form-input" />
+            <span class="form-input-icon">👤</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="form-input-wrap">
+            <input type="password" name="password" required placeholder="Enter password" class="form-input" />
+            <span class="form-input-icon">🔒</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login">Access Dashboard</button>
+      </form>
+
+      <div class="form-footer">
+        <a href="/" class="back-link">← Back to website</a>
+      </div>
+
+      <p class="form-note">Protected environment · Audit logging enabled</p>
+    </div>
+  </div>
+</body>
+</html>

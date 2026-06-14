@@ -1,0 +1,19 @@
+[phases.setup]
+nixPkgs = ['nodejs_20', 'npm-10_x']
+
+[start]
+cmd = 'npm start'
+
+# Mark all secrets as runtime-only variables so Nixpacks
+# does not generate ARG/ENV instructions in the Dockerfile.
+# These are injected at container runtime, not build time.
+[variables]
+ADMIN_PASSWORD = { value = '' }
+COMETCHAT_AUTH_KEY = { value = '' }
+POSTGRES_PASSWORD = { value = '' }
+RESEND_API_KEY = { value = '' }
+SESSION_SECRET = { value = '' }
+SMTP_PASSWORD = { value = '' }
+DATABASE_URL = { value = '' }
+POSTGRES_USER = { value = '' }
+POSTGRES_DB = { value = '' }

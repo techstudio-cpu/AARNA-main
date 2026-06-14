@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Quotations - Aarna Solars Admin</title>
+  <link rel="stylesheet" href="/css/admin-classic-quotation.css">
+</head>
+<body>
+  <div class="app-container">
+    <%- include('partials/sidebar') %>
+    
+    <main class="main-content">
+      <%- include('partials/header', { title: 'Quotation Builder' }) %>
+      
+      <div class="qb-container">
+        <!-- Quotation Builder Header -->
+        <div class="qb-header">
+          <div>
+            <h2 style="margin: 0; font-size: 24px; font-weight: 700;">Create Quotation</h2>
+            <p style="margin: 8px 0 0 0; color: var(--text-muted);">Generate professional solar quotations for customers</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="qb-btn-secondary" onclick="loadTemplate()">Load Template</button>
+            <button class="btn-primary" onclick="generatePDF()">Download PDF</button>
+          </div>
+        </div>
+        
+        <div class="qb-content">
+          <!-- Form Section -->
+          <div class="qb-form-section">
+            <div class="qb-card">
+              <h3 class="qb-card-title">Customer Details</h3>
+              <div class="qb-form-grid">
+                <div class="qb-field">
+                  <label>Customer Name *</label>
+                  <input type="text" id="customerName" placeholder="Enter customer name" required>
+                </div>
+                <div class="qb-field">
+                  <label>Phone Number *</label>
+                  <input type="tel" id="customerPhone" placeholder="Enter phone number" required>
+                </div>
+                <div class="qb-field">
+                  <label>Email Address</label>
+                  <input type="email" id="customerEmail" placeholder="Enter email address">
+                </div>
+                <div class="qb-field">
+                  <label>Installation Address</label>
+                  <input type="text" id="customerAddress" placeholder="Enter installation address">
+                </div>
+              </div>
+            </div>
+            
+            <div class="qb-card">
+              <h3 class="qb-card-title">System Configuration</h3>
+              <div class="qb-form-grid">
+                <div class="qb-field">
+                  <label>System Type *</label>
+                  <select id="systemType" onchange="updateSystemDefaults()">
+                    <option value="on-grid">On-Grid System</option>
+                    <option value="off-grid">Off-Grid System</option>
+                    <option value="hybrid">Hybrid System</option>
+                  </select>
+                </div>
+                <div class="qb-field">
+                  <label>System Capacity (kW) *</label>
+                  <input type="number" id="systemCapacity" placeholder="e.g., 3" step="0.5" min="1" onchange="calculateTotals()">
+                </div>
+                <div class="qb-field">
+                  <label>Panel Type</label>
+                  <select id="panelType" onchange="calculateTotals()">
+                    <option value="mono">Monocrystalline</option>
+                    <option value="poly">Polycrystalline</option>
+                    <option value="bicrystalline">Bicrystalline</option>
+                  </select>
+                </div>
+                <div class="qb-field">
+                  <label>Inverter Type</label>
+                  <select id="inverterType" onchange="calculateTotals()">
+                    <option value="string">String Inverter</option>
+                    <option value="micro">Micro Inverter</option>
+                    <option value="hybrid">Hybrid Inverter</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="qb-card">
+              <h3 class="qb-card-title">Components & Pricing</h3>
+              <div id="componentsList">
+                <!-- Components will be dynamically added here -->
+              </div>
+              <button class="qb-btn-secondary" onclick="addComponent()" style="margin-top: 12px;">
+                + Add Component
+              </button>
+            </div>
+            
+            <div class="qb-card">
+              <h3 class="qb-card-title">Financial Summary</h3>
+              <div class="qb-summary-grid">
+                <div class="qb-summary-item">
+                  <label>Subtotal</label>
+                  <div id="subtotal">₹0</div>
+                </div>
+                <div class="qb-summary-item">
+                  <label>Government Subsidy</label>
+                  <div id="subsidy">₹0</div>
+                </div>
+                <div class="qb-summary-item">
+                  <label>Installation Charges</label>
+                  <input type="number" id="installationCharges" value="0" onchange="calculateTotals()">
+                </div>
+                <div class="qb-summary-item">
+                  <label>Tax (GST)</label>
+                  <div id="tax">₹0</div>
+                </div>
+                <div class="qb-summary-item qb-summary-total">
+                  <label>Grand Total</label>
+                  <div id="grandTotal">₹0</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="qb-card">
+              <h3 class="qb-card-title">Payment Terms</h3>
+              <div class="qb-form-grid">
+                <div class="qb-field">
+                  <label>Advance Payment (%)</label>
+                  <input type="number" id="advancePercent" value="30" min="0" max="100" onchange="calculateTotals()">
+                </div>
+                <div class="qb-field">
+                  <label>On Installation (%)</label>
+                  <input type="number" id="installationPercent" value="40" min="0" max="100" onchange="calculateTotals()">
+                </div>
+                <div class="qb-field">
+                  <label>On Commissioning (%)</label>
+                  <input type="number" id="commissioningPercent" value="30" min="0" max="100" onchange="calculateTotals()">
+                </div>
+                <div class="qb-field">
+                  <label>Warranty (Years)</label>
+                  <input type="number" id="warrantyYears" value="25" min="1" max="30">
+                </div>
+              </div>
+            </div>
+            
+            <div class="qb-card">
+              <h3 class="qb-card-title">Additional Notes</h3>
+              <div class="qb-field">
+                <label>Terms & Conditions</label>
+                <textarea id="termsConditions" rows="4" placeholder="Enter terms and conditions..."></textarea>
+              </div>
+              <div class="qb-field">
+                <label>Internal Notes</label>
+                <textarea id="internalNotes" rows="3" placeholder="Internal notes (not shown in quotation)..."></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Preview Section -->
+          <div class="qb-preview-section">
+            <div class="qb-preview-header">
+              <h3>Quotation Preview</h3>
+              <div style="display: flex; gap: 8px;">
+                <button class="qb-btn-small" onclick="previewPage(1)">Page 1</button>
+                <button class="qb-btn-small" onclick="previewPage(2)">Page 2</button>
+              </div>
+            </div>
+            
+            <div class="qb-preview-scroll">
+              <div class="qb-preview-pages">
+                <div class="qb-page">
+                  <div class="qb-wave-top">
+                    <svg viewBox="0 0 1200 200" fill="none">
+                      <path d="M0 200V100C300 0 900 0 1200 100V200H0Z" fill="#E87722" opacity="0.1"/>
+                    </svg>
+                  </div>
+                  
+                  <div class="qb-page-content">
+                    <!-- Header -->
+                    <div style="text-align: center; margin-bottom: 32px;">
+                      <div style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+                        <img src="/logo.ico" alt="Aarna Solars" style="height: 60px;">
+                        <div>
+                          <h1 style="margin: 0; font-size: 28px; color: #E87722;">AARNA SOLARS</h1>
+                          <p style="margin: 4px 0 0 0; color: #64748B;">TATA Power SOLAROOF Partner</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Quotation Details -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+                      <div>
+                        <h3 style="margin: 0 0 12px 0; color: #E87722;">Quotation Details</h3>
+                        <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                          <div style="margin-bottom: 8px;">
+                            <span style="color: #64748B; font-size: 14px;">Quote Number:</span>
+                            <strong style="margin-left: 8px;">Quote-001</strong>
+                          </div>
+                          <div style="margin-bottom: 8px;">
+                            <span style="color: #64748B; font-size: 14px;">Date:</span>
+                            <strong style="margin-left: 8px;" id="quoteDate"></strong>
+                          </div>
+                          <div>
+                            <span style="color: #64748B; font-size: 14px;">Valid Until:</span>
+                            <strong style="margin-left: 8px;" id="validUntil"></strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 style="margin: 0 0 12px 0; color: #E87722;">Customer Details</h3>
+                        <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                          <div style="margin-bottom: 8px;">
+                            <span style="color: #64748B; font-size: 14px;">Name:</span>
+                            <strong style="margin-left: 8px;" id="previewCustomerName">-</strong>
+                          </div>
+                          <div style="margin-bottom: 8px;">
+                            <span style="color: #64748B; font-size: 14px;">Phone:</span>
+                            <strong style="margin-left: 8px;" id="previewCustomerPhone">-</strong>
+                          </div>
+                          <div>
+                            <span style="color: #64748B; font-size: 14px;">Address:</span>
+                            <strong style="margin-left: 8px;" id="previewCustomerAddress">-</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- System Summary -->
+                    <div style="margin-bottom: 24px;">
+                      <h3 style="margin: 0 0 16px 0; color: #E87722;">System Summary</h3>
+                      <div style="background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 8px; padding: 16px;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                          <div>
+                            <span style="color: #92400E; font-size: 14px;">System Type:</span>
+                            <strong style="margin-left: 8px; color: #E87722;" id="previewSystemType">-</strong>
+                          </div>
+                          <div>
+                            <span style="color: #92400E; font-size: 14px;">Capacity:</span>
+                            <strong style="margin-left: 8px; color: #E87722;" id="previewSystemCapacity">-</strong>
+                          </div>
+                          <div>
+                            <span style="color: #92400E; font-size: 14px;">Panel Type:</span>
+                            <strong style="margin-left: 8px;" id="previewPanelType">-</strong>
+                          </div>
+                          <div>
+                            <span style="color: #92400E; font-size: 14px;">Inverter Type:</span>
+                            <strong style="margin-left: 8px;" id="previewInverterType">-</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Components Table -->
+                    <div style="margin-bottom: 24px;">
+                      <h3 style="margin: 0 0 16px 0; color: #E87722;">Components & Pricing</h3>
+                      <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                          <tr style="background: #F8FAFC;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #E2E8F0;">Item</th>
+                            <th style="padding: 12px; text-align: center; border: 1px solid #E2E8F0;">Qty</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #E2E8F0;">Unit Price</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #E2E8F0;">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody id="previewComponentsTable">
+                          <!-- Components will be rendered here -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  <div class="qb-page-footer">
+                    <div>Aarna Solars - TATA Power SOLAROOF Partner</div>
+                    <div>Page 1 of 2</div>
+                  </div>
+                  
+                  <div class="qb-wave-bottom">
+                    <svg viewBox="0 0 1200 150" fill="none">
+                      <path d="M0 0V100C300 200 900 200 1200 100V0H0Z" fill="#E87722" opacity="0.1"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <%- include('partials/footer') %>
+  
+  <script>
+    // Quotation Builder JavaScript
+    function updateSystemDefaults() {
+      // Update default values based on system type
+      calculateTotals();
+      updatePreview();
+    }
+    
+    function calculateTotals() {
+      const capacity = parseFloat(document.getElementById('systemCapacity').value) || 0;
+      const installationCharges = parseFloat(document.getElementById('installationCharges').value) || 0;
+      
+      // Calculate base system cost
+      let baseCost = capacity * 60000; // Base rate per kW
+      
+      // Update subtotal
+      document.getElementById('subtotal').textContent = '₹' + baseCost.toLocaleString('en-IN');
+      
+      // Calculate subsidy (e.g., ₹30,000 per kW up to 3kW)
+      const subsidy = Math.min(capacity, 3) * 30000;
+      document.getElementById('subsidy').textContent = '₹' + subsidy.toLocaleString('en-IN');
+      
+      // Calculate tax (18% GST)
+      const tax = (baseCost - subsidy + installationCharges) * 0.18;
+      document.getElementById('tax').textContent = '₹' + tax.toLocaleString('en-IN');
+      
+      // Calculate grand total
+      const grandTotal = baseCost - subsidy + installationCharges + tax;
+      document.getElementById('grandTotal').textContent = '₹' + grandTotal.toLocaleString('en-IN');
+      
+      updatePreview();
+    }
+    
+    function updatePreview() {
+      // Update customer details
+      document.getElementById('previewCustomerName').textContent = 
+        document.getElementById('customerName').value || '-';
+      document.getElementById('previewCustomerPhone').textContent = 
+        document.getElementById('customerPhone').value || '-';
+      document.getElementById('previewCustomerAddress').textContent = 
+        document.getElementById('customerAddress').value || '-';
+      
+      // Update system details
+      document.getElementById('previewSystemType').textContent = 
+        document.getElementById('systemType').value.toUpperCase();
+      document.getElementById('previewSystemCapacity').textContent = 
+        document.getElementById('systemCapacity').value + ' kW';
+      document.getElementById('previewPanelType').textContent = 
+        document.getElementById('panelType').value;
+      document.getElementById('previewInverterType').textContent = 
+        document.getElementById('inverterType').value;
+      
+      // Set dates
+      const today = new Date();
+      document.getElementById('quoteDate').textContent = today.toLocaleDateString('en-IN');
+      const validUntil = new Date(today.setDate(today.getDate() + 30));
+      document.getElementById('validUntil').textContent = validUntil.toLocaleDateString('en-IN');
+    }
+    
+    function addComponent() {
+      // Add component logic
+    }
+    
+    function loadTemplate() {
+      // Load template logic
+    }
+    
+    function generatePDF() {
+      // PDF generation logic using html2canvas and jsPDF
+      const element = document.querySelector('.qb-page');
+      html2canvas(element).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jspdf.jsPDF();
+        pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+        pdf.save('quotation.pdf');
+      });
+    }
+    
+    // Initialize
+    calculateTotals();
+    updatePreview();
+  </script>
+</body>
+</html>

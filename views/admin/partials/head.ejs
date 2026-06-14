@@ -1,0 +1,184 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#2563eb">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" href="/favicon.ico">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Classic Light Theme CSS -->
+<link rel="stylesheet" href="/css/admin-classic-variables.css">
+<link rel="stylesheet" href="/css/admin-classic-base.css">
+<link rel="stylesheet" href="/css/admin-classic-components.css">
+<link rel="stylesheet" href="/css/admin-classic-layout.css">
+<link rel="stylesheet" href="/css/admin-classic-custom.css">
+
+<!-- Enhanced Dashboard Styles -->
+<style>
+  .activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .timeline-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+  }
+  
+  .timeline-item:hover {
+    background: var(--bg-hover);
+    padding: 8px;
+    border-radius: 8px;
+  }
+  
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  
+  .timeline-dot.high-priority {
+    background: var(--danger);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+  }
+  
+  .timeline-content {
+    flex: 1;
+  }
+  
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  
+  .timeline-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  
+  .timeline-info {
+    flex: 1;
+  }
+  
+  .timeline-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text);
+  }
+  
+  .timeline-time {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  
+  .timeline-action {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .timeline-action:hover {
+    background: var(--primary-dark);
+  }
+  
+  .timeline-details {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding-left: 44px;
+  }
+  
+  .quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  
+  .quick-action-btn {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .quick-action-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  
+  .action-icon {
+    font-size: 24px;
+  }
+  
+  .action-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    text-align: center;
+  }
+  
+  .timeline-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .timeline-stage-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  
+  .timeline-stage-bar {
+    height: 24px;
+    background: var(--bg);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.5s ease;
+  }
+  
+  .timeline-stage-value {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

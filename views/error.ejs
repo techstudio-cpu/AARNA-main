@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error <%= typeof statusCode !== 'undefined' ? statusCode : 500 %> - Aarna Solars</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --primary: #E87722;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --danger: #EF4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .error-container {
+      text-align: center;
+      max-width: 500px;
+      background: var(--card);
+      padding: 48px 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .error-code {
+      font-size: 80px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .error-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .error-message {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .error-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #D06A1A;
+    }
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: #F1F5F9;
+    }
+    .logo {
+      margin-bottom: 32px;
+    }
+    .logo img {
+      height: 48px;
+    }
+    @media (max-width: 480px) {
+      .error-code { font-size: 60px; }
+      .error-title { font-size: 20px; }
+      .error-container { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="logo">
+      <img src="/logo.ico" alt="Aarna Solars">
+    </div>
+    <div class="error-code"><%= typeof statusCode !== 'undefined' ? statusCode : 500 %></div>
+    <h1 class="error-title"><%= typeof title !== 'undefined' ? title : 'Something went wrong' %></h1>
+    <p class="error-message">
+      <%= typeof message !== 'undefined' ? message : 'We apologize for the inconvenience. Please try again later or contact support if the problem persists.' %>
+    </p>
+    <div class="error-actions">
+      <a href="/" class="btn btn-primary">Go Home</a>
+      <button onclick="window.location.reload()" class="btn btn-secondary">Try Again</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <img src="/logo.ico" alt="Aarna Solars" style="height: 50px; width: auto; object-fit: contain;">
+  </div>
+  
+  <nav>
+    <a href="/admin/dashboard" class="nav-item <%= activePage === 'dashboard' ? 'active' : '' %>">
+      <span>📊</span>
+      Dashboard
+    </a>
+    <a href="/admin/leads" class="nav-item <%= activePage === 'leads' ? 'active' : '' %>">
+      <span>�</span>
+      All Leads
+    </a>
+    <a href="/admin/pipeline" class="nav-item <%= activePage === 'pipeline' ? 'active' : '' %>">
+      <span>📈</span>
+      Pipeline
+    </a>
+    <a href="/admin/followups" class="nav-item <%= activePage === 'followups' ? 'active' : '' %>">
+      <span>📅</span>
+      Follow-ups
+      <% if (stats && stats.pendingFollowUps > 0) { %>
+      <span class="nav-badge"><%= stats.pendingFollowUps %></span>
+      <% } %>
+    </a>
+    <a href="/admin/analytics" class="nav-item <%= activePage === 'analytics' ? 'active' : '' %>">
+      <span>📉</span>
+      Analytics
+    </a>
+    <a href="/admin/quotations" class="nav-item <%= activePage === 'quotations' ? 'active' : '' %>" style="margin-top: 8px;">
+      <span>📄</span>
+      Quotes
+    </a>
+    <% if (userRole === 'super_admin') { %>
+    <a href="/admin/settings" class="nav-item <%= activePage === 'settings' ? 'active' : '' %>">
+      <span>⚙️</span>
+      Settings
+    </a>
+    <a href="/admin/users" class="nav-item <%= activePage === 'users' ? 'active' : '' %>">
+      <span>👥</span>
+      Users
+    </a>
+    <a href="/admin/audit" class="nav-item <%= activePage === 'audit' ? 'active' : '' %>">
+      <span>📋</span>
+      Audit Log
+    </a>
+    <a href="/admin/sessions" class="nav-item <%= activePage === 'sessions' ? 'active' : '' %>">
+      <span>🔐</span>
+      Sessions
+    </a>
+    <% } %>
+    <a href="/" class="nav-item">
+      <span>🌐</span>
+      Website
+    </a>
+  </nav>
+  
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-label">Logged in as</div>
+      <div class="user-name"><%= adminUser || 'Admin' %></div>
+      <div style="margin-top: 4px;">
+        <span style="font-size: 10px; padding: 2px 8px; border-radius: 999px; background: <%= userRole === 'super_admin' ? 'rgba(239,68,68,0.15)' : userRole === 'manager' ? 'rgba(232,119,34,0.15)' : 'rgba(100,116,139,0.15)' %>; color: <%= userRole === 'super_admin' ? '#FCA5A5' : userRole === 'manager' ? '#FDBA74' : '#94A3B8' %>;">
+          <%= userRole === 'super_admin' ? 'Super Admin' : userRole === 'manager' ? 'Manager' : 'Viewer' %>
+        </span>
+      </div>
+    </div>
+    <form action="/admin/logout" method="POST" style="margin-top: 12px;">
+      <button type="submit" class="nav-item" style="width: 100%; border: none; background: rgba(239, 68, 68, 0.1); color: #FCA5A5; cursor: pointer;">
+        <span>🚪</span>
+        Logout
+      </button>
+    </form>
+  </div>
+</aside>

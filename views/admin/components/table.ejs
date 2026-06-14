@@ -1,0 +1,53 @@
+<% 
+  // Table Component
+  // Props:
+  //   headers (required) - Array of header objects: [{ key: 'name', label: 'Name', width: '30%' }, ...]
+  //   rows (required) - Array of data objects
+  //   emptyText (optional) - Text to show when no data (default: 'No data available')
+  //   onRowClick (optional) - Function to call when row is clicked (receives row data)
+  //   className (optional) - Additional CSS classes
+  
+  const hasData = rows && rows.length > 0;
+%>
+
+<div class="table-container <%= className || '' %>">
+  <table class="table">
+    <thead>
+      <tr>
+        <% headers.forEach(function(header) { %>
+          <th style="<%= header.width ? 'width: ' + header.width : '' %>">
+            <%= header.label %>
+          </th>
+        <% }); %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (hasData) { %>
+        <% rows.forEach(function(row, index) { %>
+          <tr 
+            <% if (onRowClick) { %>
+              onclick="<%= onRowClick %>('<%= row.id || index %>')"
+              style="cursor: pointer;"
+            <% } %>
+          >
+            <% headers.forEach(function(header) { %>
+              <td>
+                <% if (header.render) { %>
+                  <%- header.render(row) %>
+                <% } else { %>
+                  <%= row[header.key] || '-' %>
+                <% } %>
+              </td>
+            <% }); %>
+          </tr>
+        <% }); %>
+      <% } else { %>
+        <tr>
+          <td colspan="<%= headers.length %>" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <%= emptyText || 'No data available' %>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

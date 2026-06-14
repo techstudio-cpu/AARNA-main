@@ -1,0 +1,65 @@
+<% 
+  // Input Component
+  // Props:
+  //   name (required) - Input name attribute
+  //   label (optional) - Label text
+  //   type (optional) - 'text' | 'email' | 'password' | 'number' | 'tel' | 'date' | 'textarea' (default: 'text')
+  //   placeholder (optional) - Placeholder text
+  //   value (optional) - Default value
+  //   required (optional) - true | false
+  //   disabled (optional) - true | false
+  //   icon (optional) - Emoji/icon character (shown on right)
+  //   className (optional) - Additional CSS classes
+  //   id (optional) - Element ID (defaults to name)
+  //   onChange (optional) - onchange handler
+  //   rows (optional) - For textarea (default: 4)
+  
+  const inputType = type || 'text';
+  const inputId = id || name;
+  const isTextarea = inputType === 'textarea';
+%>
+
+<div class="form-group" style="margin-bottom: 16px;">
+  <% if (label) { %>
+    <label class="label" for="<%= inputId %>"><%= label %></label>
+  <% } %>
+  
+  <div style="position: relative;">
+    <% if (isTextarea) { %>
+      <textarea
+        name="<%= name %>"
+        id="<%= inputId %>"
+        class="textarea <%= className || '' %>"
+        placeholder="<%= placeholder || '' %>"
+        rows="<%= rows || 4 %>"
+        <% if (required) { %>required<% } %>
+        <% if (disabled) { %>disabled<% } %>
+        <% if (onChange) { %>onchange="<%= onChange %>"<% } %>
+      ><%= value || '' %></textarea>
+    <% } else { %>
+      <input
+        type="<%= inputType %>"
+        name="<%= name %>"
+        id="<%= inputId %>"
+        class="input <%= className || '' %>"
+        placeholder="<%= placeholder || '' %>"
+        value="<%= value || '' %>"
+        <% if (required) { %>required<% } %>
+        <% if (disabled) { %>disabled<% } %>
+        <% if (onChange) { %>onchange="<%= onChange %>"<% } %>
+      >
+      
+      <% if (icon) { %>
+        <span style="
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 16px;
+          opacity: 0.5;
+          pointer-events: none;
+        "><%= icon %></span>
+      <% } %>
+    <% } %>
+  </div>
+</div>

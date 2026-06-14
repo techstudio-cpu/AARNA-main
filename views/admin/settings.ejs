@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Settings - Aarna Solars Admin</title>
+</head>
+<body>
+  <div class="app-container">
+    <%- include('partials/sidebar') %>
+    
+    <main class="main-content">
+      <%- include('partials/header', { title: 'Settings' }) %>
+      
+      <!-- Settings Navigation -->
+      <div style="display: flex; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+        <button class="nav-item" onclick="showSettingsTab('general')" id="tab-general" style="background: var(--primary); color: white;">
+          ⚙️ General
+        </button>
+        <button class="nav-item" onclick="showSettingsTab('users')" id="tab-users">
+          👥 Users
+        </button>
+        <button class="nav-item" onclick="showSettingsTab('audit')" id="tab-audit">
+          📋 Audit Log
+        </button>
+        <button class="nav-item" onclick="showSettingsTab('sessions')" id="tab-sessions">
+          🔐 Sessions
+        </button>
+      </div>
+      
+      <!-- General Settings Tab -->
+      <div id="settings-general" class="settings-tab">
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">⚙️</div>
+              General Settings
+            </div>
+          </div>
+          
+          <div class="qb-form-grid">
+            <div class="qb-field">
+              <label>Company Name</label>
+              <input type="text" id="companyName" value="Aarna Solars">
+            </div>
+            <div class="qb-field">
+              <label>Contact Email</label>
+              <input type="email" id="contactEmail" value="info@aarnasolars.com">
+            </div>
+            <div class="qb-field">
+              <label>Contact Phone</label>
+              <input type="tel" id="contactPhone" value="+91-9876543210">
+            </div>
+            <div class="qb-field">
+              <label>WhatsApp Number</label>
+              <input type="tel" id="whatsappNumber" value="+91-9876543210">
+            </div>
+            <div class="qb-field">
+              <label>Base Currency</label>
+              <select id="currency">
+                <option value="INR" selected>Indian Rupee (₹)</option>
+                <option value="USD">US Dollar ($)</option>
+                <option value="EUR">Euro (€)</option>
+              </select>
+            </div>
+            <div class="qb-field">
+              <label>Timezone</label>
+              <select id="timezone">
+                <option value="Asia/Kolkata" selected>Asia/Kolkata (IST)</option>
+                <option value="UTC">UTC</option>
+                <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+              </select>
+            </div>
+          </div>
+          
+          <button class="btn-primary" onclick="saveGeneralSettings()" style="margin-top: 16px;">
+            Save Settings
+          </button>
+        </div>
+        
+        <div class="card">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">🔔</div>
+              Notification Settings
+            </div>
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="font-weight: 500;">New Lead Notifications</div>
+                <div style="font-size: 13px; color: var(--text-muted);">Get notified when new leads come in</div>
+              </div>
+              <input type="checkbox" id="newLeadNotif" checked>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="font-weight: 500;">Follow-up Reminders</div>
+                <div style="font-size: 13px; color: var(--text-muted);">Remind about pending follow-ups</div>
+              </div>
+              <input type="checkbox" id="followupNotif" checked>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="font-weight: 500;">Daily Summary Email</div>
+                <div style="font-size: 13px; color: var(--text-muted);">Receive daily performance summary</div>
+              </div>
+              <input type="checkbox" id="dailySummaryNotif">
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="font-weight: 500;">WhatsApp Alerts</div>
+                <div style="font-size: 13px; color: var(--text-muted);">Send alerts via WhatsApp</div>
+              </div>
+              <input type="checkbox" id="whatsappNotif" checked>
+            </div>
+          </div>
+          
+          <button class="btn-primary" onclick="saveNotificationSettings()" style="margin-top: 16px;">
+            Save Notifications
+          </button>
+        </div>
+      </div>
+      
+      <!-- Users Management Tab -->
+      <div id="settings-users" class="settings-tab" style="display: none;">
+        <% if (userRole === 'super_admin') { %>
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">👥</div>
+              User Management
+            </div>
+            <button class="btn-primary" onclick="openUserModal()">
+              + Add User
+            </button>
+          </div>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Last Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(user => { %>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+                    <div><%= user.name %></div>
+                  </div>
+                </td>
+                <td><%= user.email %></td>
+                <td>
+                  <span class="badge badge-<%= user.role %>">
+                    <%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %>
+                  </span>
+                </td>
+                <td>
+                  <span class="badge badge-<%= user.status %>">
+                    <%= user.status.charAt(0).toUpperCase() + user.status.slice(1) %>
+                  </span>
+                </td>
+                <td><%= user.lastActive ? new Date(user.lastActive).toLocaleDateString('en-IN') : 'Never' %></td>
+                <td>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="icon-btn" onclick="editUser('<%= user.id %>')" title="Edit">✏</button>
+                    <% if (user.id !== currentUserId) { %>
+                    <button class="icon-btn" onclick="deleteUser('<%= user.id %>')" title="Delete" style="color: var(--danger);">🗑</button>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <% } else { %>
+        <div class="card">
+          <div style="text-align: center; padding: 40px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+            <div style="font-size: 16px; margin-bottom: 8px;">Access Restricted</div>
+            <div style="font-size: 14px; color: var(--text-muted);">Only Super Admins can manage users</div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      
+      <!-- Audit Log Tab -->
+      <div id="settings-audit" class="settings-tab" style="display: none;">
+        <% if (userRole === 'super_admin') { %>
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">📋</div>
+              Audit Log
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" placeholder="Search audit log..." class="search-bar" style="height: 40px; padding: 0 16px;">
+              <button class="btn-primary" onclick="exportAuditLog()">
+                📥 Export
+              </button>
+            </div>
+          </div>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Entity</th>
+                <th>Details</th>
+                <th>IP Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% auditLogs.forEach(log => { %>
+              <tr>
+                <td><%= new Date(log.timestamp).toLocaleString('en-IN') %></td>
+                <td><%= log.user %></td>
+                <td>
+                  <span class="badge badge-<%= log.actionType %>">
+                    <%= log.action %>
+                  </span>
+                </td>
+                <td><%= log.entity %></td>
+                <td><%= log.details %></td>
+                <td><%= log.ipAddress %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+            <div style="font-size: 14px; color: var(--text-muted);">
+              Showing <%= auditLogs.length %> of <%= totalAuditLogs %> entries
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-primary" onclick="previousAuditPage()">Previous</button>
+              <button class="btn-primary" onclick="nextAuditPage()">Next</button>
+            </div>
+          </div>
+        </div>
+        <% } else { %>
+        <div class="card">
+          <div style="text-align: center; padding: 40px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+            <div style="font-size: 16px; margin-bottom: 8px;">Access Restricted</div>
+            <div style="font-size: 14px; color: var(--text-muted);">Only Super Admins can view audit logs</div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      
+      <!-- Sessions Tab -->
+      <div id="settings-sessions" class="settings-tab" style="display: none;">
+        <% if (userRole === 'super_admin') { %>
+        <div class="card">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">🔐</div>
+              Active Sessions
+            </div>
+            <button class="btn-primary" onclick="revokeAllSessions()" style="background: var(--danger);">
+              Revoke All Sessions
+            </button>
+          </div>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Login Time</th>
+                <th>Last Activity</th>
+                <th>IP Address</th>
+                <th>Device</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% sessions.forEach(session => { %>
+              <tr>
+                <td><%= session.user %></td>
+                <td><%= new Date(session.loginTime).toLocaleString('en-IN') %></td>
+                <td><%= new Date(session.lastActivity).toLocaleString('en-IN') %></td>
+                <td><%= session.ipAddress %></td>
+                <td><%= session.device %></td>
+                <td>
+                  <button class="icon-btn" onclick="revokeSession('<%= session.id %>')" title="Revoke" style="color: var(--danger);">🚪</button>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <% } else { %>
+        <div class="card">
+          <div style="text-align: center; padding: 40px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+            <div style="font-size: 16px; margin-bottom: 8px;">Access Restricted</div>
+            <div style="font-size: 14px; color: var(--text-muted);">Only Super Admins can manage sessions</div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </main>
+  </div>
+  
+  <%- include('partials/footer') %>
+  <%- include('components/modal') %>
+  
+  <script>
+    function showSettingsTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.settings-tab').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      
+      // Remove active state from all tab buttons
+      document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+        btn.style.background = '';
+        btn.style.color = '';
+      });
+      
+      // Show selected tab
+      document.getElementById('settings-' + tabName).style.display = 'block';
+      
+      // Add active state to selected tab button
+      document.getElementById('tab-' + tabName).style.background = 'var(--primary)';
+      document.getElementById('tab-' + tabName).style.color = 'white';
+    }
+    
+    function saveGeneralSettings() {
+      // Implement save general settings logic
+      fetch('/api/settings/general', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyName: document.getElementById('companyName').value,
+          contactEmail: document.getElementById('contactEmail').value,
+          contactPhone: document.getElementById('contactPhone').value,
+          whatsappNumber: document.getElementById('whatsappNumber').value,
+          currency: document.getElementById('currency').value,
+          timezone: document.getElementById('timezone').value
+        })
+      })
+      .then(() => alert('Settings saved successfully!'))
+      .catch(() => alert('Failed to save settings'));
+    }
+    
+    function saveNotificationSettings() {
+      // Implement save notification settings logic
+      alert('Notification settings saved!');
+    }
+    
+    function openUserModal() {
+      document.getElementById('modalTitle').textContent = 'Add New User';
+      document.getElementById('modalBody').innerHTML = `
+        <form id="userForm" style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">Name *</label>
+            <input type="text" id="userName" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">Email *</label>
+            <input type="email" id="userEmail" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">Password *</label>
+            <input type="password" id="userPassword" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">Role *</label>
+            <select id="userRole" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+              <option value="viewer">Viewer</option>
+              <option value="manager">Manager</option>
+              <option value="super_admin">Super Admin</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary">Create User</button>
+        </form>
+      `;
+      document.getElementById('leadModal').classList.add('active');
+      
+      document.getElementById('userForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        createUser();
+      });
+    }
+    
+    function editUser(id) {
+      // Implement edit user logic
+    }
+    
+    function deleteUser(id) {
+      if (confirm('Are you sure you want to delete this user?')) {
+        fetch('/api/users/' + id, { method: 'DELETE' })
+          .then(() => location.reload())
+          .catch(() => alert('Failed to delete user'));
+      }
+    }
+    
+    function createUser() {
+      fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('userName').value,
+          email: document.getElementById('userEmail').value,
+          password: document.getElementById('userPassword').value,
+          role: document.getElementById('userRole').value
+        })
+      })
+      .then(() => {
+        document.getElementById('leadModal').classList.remove('active');
+        location.reload();
+      })
+      .catch(() => alert('Failed to create user'));
+    }
+    
+    function exportAuditLog() {
+      window.location.href = '/api/audit/export';
+    }
+    
+    function previousAuditPage() {
+      window.location.href = '/admin/settings/audit?page=<%= auditPage - 1 %>';
+    }
+    
+    function nextAuditPage() {
+      window.location.href = '/admin/settings/audit?page=<%= auditPage + 1 %>';
+    }
+    
+    function revokeSession(id) {
+      if (confirm('Are you sure you want to revoke this session?')) {
+        fetch('/api/sessions/' + id, { method: 'DELETE' })
+          .then(() => location.reload())
+          .catch(() => alert('Failed to revoke session'));
+      }
+    }
+    
+    function revokeAllSessions() {
+      if (confirm('Are you sure you want to revoke all sessions except yours?')) {
+        fetch('/api/sessions/revoke-all', { method: 'POST' })
+          .then(() => location.reload())
+          .catch(() => alert('Failed to revoke sessions'));
+      }
+    }
+  </script>
+</body>
+</html>

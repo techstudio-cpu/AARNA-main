@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Analytics - Aarna Solars Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <%- include('partials/sidebar') %>
+    
+    <main class="main-content">
+      <%- include('partials/header', { title: 'Analytics' }) %>
+      
+      <!-- Date Range Selector -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div>
+            <label style="font-size: 14px; color: var(--text-muted); margin-right: 8px;">From:</label>
+            <input type="date" id="startDate" onchange="updateAnalytics()" style="padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+          </div>
+          <div>
+            <label style="font-size: 14px; color: var(--text-muted); margin-right: 8px;">To:</label>
+            <input type="date" id="endDate" onchange="updateAnalytics()" style="padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+          </div>
+          <div>
+            <select id="quickRange" onchange="setQuickRange()" style="padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+              <option value="">Quick Select</option>
+              <option value="7">Last 7 Days</option>
+              <option value="30">Last 30 Days</option>
+              <option value="90">Last 90 Days</option>
+              <option value="365">Last Year</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="exportAnalytics()">
+            📥 Export Report
+          </button>
+        </div>
+      </div>
+      
+      <!-- Key Metrics -->
+      <div class="kpi-grid" style="margin-bottom: 24px;">
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>👥</span> Total Leads
+          </div>
+          <div class="kpi-value"><%= analytics.totalLeads || 0 %></div>
+          <div class="kpi-change <%= analytics.leadsChange >= 0 ? 'up' : 'down' %>">
+            <span><%= analytics.leadsChange >= 0 ? '↑' : '↓' %></span> 
+            <%= Math.abs(analytics.leadsChange || 0) %>%
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>✅</span> Conversion Rate
+          </div>
+          <div class="kpi-value"><%= analytics.conversionRate || 0 %>%</div>
+          <div class="kpi-change <%= analytics.conversionChange >= 0 ? 'up' : 'down' %>">
+            <span><%= analytics.conversionChange >= 0 ? '↑' : '↓' %></span> 
+            <%= Math.abs(analytics.conversionChange || 0) %>%
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>💰</span> Revenue
+          </div>
+          <div class="kpi-value">₹<%= (analytics.revenue || 0).toLocaleString('en-IN') %></div>
+          <div class="kpi-change <%= analytics.revenueChange >= 0 ? 'up' : 'down' %>">
+            <span><%= analytics.revenueChange >= 0 ? '↑' : '↓' %></span> 
+            <%= Math.abs(analytics.revenueChange || 0) %>%
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-label">
+            <span>⏱️</span> Avg. Response Time
+          </div>
+          <div class="kpi-value"><%= analytics.avgResponseTime || 0 %>h</div>
+          <div class="kpi-change <%= analytics.responseTimeChange <= 0 ? 'up' : 'down' %>">
+            <span><%= analytics.responseTimeChange <= 0 ? '↑' : '↓' %></span> 
+            <%= Math.abs(analytics.responseTimeChange || 0) %>%
+          </div>
+        </div>
+      </div>
+      
+      <!-- Charts Row -->
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 24px;">
+        <!-- Lead Trends Chart -->
+        <div class="card">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">📈</div>
+              Lead Trends
+            </div>
+          </div>
+          <div style="height: 300px;">
+            <canvas id="leadTrendsChart"></canvas>
+          </div>
+        </div>
+        
+        <!-- Conversion Funnel Chart -->
+        <div class="card">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">📊</div>
+              Conversion Funnel
+            </div>
+          </div>
+          <div style="height: 300px;">
+            <canvas id="conversionFunnelChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Second Charts Row -->
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 24px;">
+        <!-- Revenue Distribution Chart -->
+        <div class="card">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">💰</div>
+              Revenue Distribution
+            </div>
+          </div>
+          <div style="height: 300px;">
+            <canvas id="revenueDistributionChart"></canvas>
+          </div>
+        </div>
+        
+        <!-- Service Type Popularity Chart -->
+        <div class="card">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="section-icon">⚡</div>
+              Service Type Popularity
+            </div>
+          </div>
+          <div style="height: 300px;">
+            <canvas id="serviceTypeChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Geographic Distribution -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">🗺️</div>
+            Geographic Distribution
+          </div>
+        </div>
+        <div style="height: 300px;">
+          <canvas id="geographicChart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Detailed Stats Table -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">📋</div>
+            Performance Metrics
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Current Period</th>
+              <th>Previous Period</th>
+              <th>Change</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% performanceMetrics.forEach(metric => { %>
+            <tr>
+              <td><%= metric.name %></td>
+              <td><%= metric.current %></td>
+              <td><%= metric.previous %></td>
+              <td>
+                <span class="<%= metric.change >= 0 ? 'positive' : 'negative' %>">
+                  <%= metric.change >= 0 ? '+' : '' %><%= metric.change %>%
+                </span>
+              </td>
+              <td>
+                <%= metric.trend === 'up' ? '📈' : metric.trend === 'down' ? '📉' : '➡️' %>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  
+  <%- include('partials/footer') %>
+  
+  <script>
+    // Initialize Charts
+    const ctx1 = document.getElementById('leadTrendsChart').getContext('2d');
+    const leadTrendsChart = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: <%- JSON.stringify(analytics.leadTrends.labels) %>,
+        datasets: [{
+          label: 'Leads',
+          data: <%- JSON.stringify(analytics.leadTrends.data) %>,
+          borderColor: '#E87722',
+          backgroundColor: 'rgba(232, 119, 34, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+    
+    const ctx2 = document.getElementById('conversionFunnelChart').getContext('2d');
+    const conversionFunnelChart = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: <%- JSON.stringify(analytics.conversionFunnel.labels) %>,
+        datasets: [{
+          label: 'Leads',
+          data: <%- JSON.stringify(analytics.conversionFunnel.data) %>,
+          backgroundColor: ['#E87722', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6'],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+    
+    const ctx3 = document.getElementById('revenueDistributionChart').getContext('2d');
+    const revenueDistributionChart = new Chart(ctx3, {
+      type: 'doughnut',
+      data: {
+        labels: <%- JSON.stringify(analytics.revenueDistribution.labels) %>,
+        datasets: [{
+          data: <%- JSON.stringify(analytics.revenueDistribution.data) %>,
+          backgroundColor: ['#E87722', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right' }
+        }
+      }
+    });
+    
+    const ctx4 = document.getElementById('serviceTypeChart').getContext('2d');
+    const serviceTypeChart = new Chart(ctx4, {
+      type: 'pie',
+      data: {
+        labels: <%- JSON.stringify(analytics.serviceTypes.labels) %>,
+        datasets: [{
+          data: <%- JSON.stringify(analytics.serviceTypes.data) %>,
+          backgroundColor: ['#E87722', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right' }
+        }
+      }
+    });
+    
+    const ctx5 = document.getElementById('geographicChart').getContext('2d');
+    const geographicChart = new Chart(ctx5, {
+      type: 'bar',
+      data: {
+        labels: <%- JSON.stringify(analytics.geographicDistribution.labels) %>,
+        datasets: [{
+          label: 'Leads',
+          data: <%- JSON.stringify(analytics.geographicDistribution.data) %>,
+          backgroundColor: '#E87722',
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+    
+    function setQuickRange() {
+      const range = document.getElementById('quickRange').value;
+      const endDate = new Date();
+      const startDate = new Date();
+      
+      startDate.setDate(startDate.getDate() - parseInt(range));
+      
+      document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+      document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+      
+      updateAnalytics();
+    }
+    
+    function updateAnalytics() {
+      // Reload analytics data with new date range
+      window.location.href = `/admin/analytics?startDate=${document.getElementById('startDate').value}&endDate=${document.getElementById('endDate').value}`;
+    }
+    
+    function exportAnalytics() {
+      window.location.href = '/api/analytics/export';
+    }
+    
+    // Set default date range to last 30 days
+    document.addEventListener('DOMContentLoaded', function() {
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 30);
+      
+      document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+      document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+    });
+  </script>
+</body>
+</html>

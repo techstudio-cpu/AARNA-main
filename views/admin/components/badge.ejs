@@ -1,0 +1,16 @@
+<% 
+  // Badge Component
+  // Props:
+  //   text (required) - Badge text
+  //   variant (optional) - 'success' | 'warning' | 'danger' | 'info' | 'neutral' (default: 'neutral')
+  //   icon (optional) - Emoji/icon character
+  //   className (optional) - Additional CSS classes
+  
+  const badgeVariant = variant || 'neutral';
+  const badgeClass = `badge badge--${badgeVariant} ${className || ''}`.trim();
+%>
+
+<span class="<%= badgeClass %>">
+  <% if (icon) { %><span style="font-size: 12px;"><%= icon %></span><% } %>
+  <span><%= text %></span>
+</span>

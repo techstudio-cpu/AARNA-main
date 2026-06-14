@@ -1,0 +1,28 @@
+<% 
+  // Card Component
+  // Props:
+  //   children (required) - Card content
+  //   variant (optional) - 'default' | 'glass' | 'elevated' | 'interactive' (default: 'default')
+  //   className (optional) - Additional CSS classes
+  //   id (optional) - Element ID
+  //   onClick (optional) - Makes card clickable
+  
+  const cardVariant = variant || 'default';
+  let cardClass = 'card';
+  
+  if (cardVariant === 'glass') cardClass += ' card--glass';
+  if (cardVariant === 'elevated') cardClass += ' card--elevated';
+  if (cardVariant === 'interactive') cardClass += ' card--interactive';
+  if (className) cardClass += ' ' + className;
+%>
+
+<div 
+  class="<%= cardClass %>"
+  <% if (id) { %>id="<%= id %>"<% } %>
+  <% if (onClick) { %>onclick="<%= onClick %>" style="cursor: pointer;"<% } %>
+>
+  <% if (title) { %>
+    <h3 style="margin: 0 0 16px 0; font-size: 18px; color: var(--text-primary);"><%= title %></h3>
+  <% } %>
+  <%= children %>
+</div>

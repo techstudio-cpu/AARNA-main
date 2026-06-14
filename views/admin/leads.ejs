@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Leads - Aarna Solars Admin</title>
+</head>
+<body>
+  <div class="app-container">
+    <%- include('partials/sidebar') %>
+    
+    <main class="main-content">
+      <%- include('partials/header', { title: 'All Leads' }) %>
+      
+      <!-- Filters -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+          <div style="flex: 1; min-width: 200px;">
+            <input type="text" class="search-bar" id="leadSearch" placeholder="Search leads..." oninput="filterLeads()">
+          </div>
+          <div>
+            <select id="statusFilter" onchange="filterLeads()" style="padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+              <option value="">All Statuses</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="qualified">Qualified</option>
+              <option value="proposal">Proposal</option>
+              <option value="negotiation">Negotiation</option>
+              <option value="converted">Converted</option>
+              <option value="lost">Lost</option>
+            </select>
+          </div>
+          <div>
+            <select id="priorityFilter" onchange="filterLeads()" style="padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+              <option value="">All Priorities</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="exportLeads()">
+            📥 Export
+          </button>
+          <button class="btn-secondary" onclick="showTimelineView()">
+            📊 Timeline View
+          </button>
+        </div>
+      </div>
+      
+      <!-- Lead Timeline View (Hidden by default) -->
+      <div id="timelineView" class="card" style="display: none; margin-bottom: 24px;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">📊</div>
+            Lead Timeline Analysis
+          </div>
+          <button class="btn-secondary" onclick="hideTimelineView()">✕ Close</button>
+        </div>
+        
+        <div id="timelineContent" style="padding: 16px;">
+          <!-- Timeline content will be populated dynamically -->
+        </div>
+      </div>
+      
+      <!-- Leads Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th onclick="sortTable('name')" style="cursor: pointer;">Name ↕</th>
+              <th onclick="sortTable('phone')" style="cursor: pointer;">Phone ↕</th>
+              <th onclick="sortTable('location')" style="cursor: pointer;">Location ↕</th>
+              <th onclick="sortTable('serviceType')" style="cursor: pointer;">Service ↕</th>
+              <th onclick="sortTable('status')" style="cursor: pointer;">Status ↕</th>
+              <th onclick="sortTable('priority')" style="cursor: pointer;">Priority ↕</th>
+              <th onclick="sortTable('followUpDate')" style="cursor: pointer;">Follow-up ↕</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% leads.forEach(lead => { %>
+            <tr class="lead-row" 
+                data-search="<%= (lead.name || '').toLowerCase() %> <%= (lead.phone || '').toLowerCase() %> <%= (lead.location || '').toLowerCase() %>" 
+                data-status="<%= lead.status || 'new' %>" 
+                data-priority="<%= lead.priority || 'medium' %>">
+              <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="lead-avatar"><%= (lead.name || 'N').charAt(0).toUpperCase() %></div>
+                  <div>
+                    <div style="font-weight: 500;"><%= lead.name || 'Unknown' %></div>
+                    <div style="font-size: 12px; color: var(--text-muted);"><%= lead.email || 'No email' %></div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <a href="tel:<%= lead.phone %>" style="color: var(--primary); text-decoration: none;"><%= lead.phone %></a>
+              </td>
+              <td><%= lead.location || 'Unknown' %></td>
+              <td><%= lead.serviceType || 'Not specified' %></td>
+              <td>
+                <span class="badge badge-<%= lead.status || 'new' %>">
+                  <%= (lead.status || 'new').charAt(0).toUpperCase() + (lead.status || 'new').slice(1) %>
+                </span>
+              </td>
+              <td>
+                <span class="badge badge-<%= lead.priority || 'medium' %>">
+                  <%= (lead.priority || 'medium').charAt(0).toUpperCase() + (lead.priority || 'medium').slice(1) %>
+                </span>
+              </td>
+              <td>
+                <%= lead.followUpDate ? new Date(lead.followUpDate).toLocaleDateString('en-IN') : '-' %>
+              </td>
+              <td>
+                <div style="display: flex; gap: 8px;">
+                  <button class="icon-btn" onclick="openLeadModal('<%= lead.id %>')" title="View Details">
+                    👁
+                  </button>
+                  <a href="https://wa.me/91<%= lead.phone.replace(/\D/g, '') %>" target="_blank" class="icon-btn" title="WhatsApp">
+                    💬
+                  </a>
+                  <button class="icon-btn" onclick="editLead('<%= lead.id %>')" title="Edit">
+                    ✏
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        
+        <% if (leads.length === 0) { %>
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <div style="font-size: 48px; margin-bottom: 16px;">👥</div>
+          <div style="font-size: 16px; margin-bottom: 8px;">No leads found</div>
+          <div style="font-size: 14px;">Try adjusting your filters or add a new lead</div>
+        </div>
+        <% } %>
+      </div>
+      
+      <!-- Pagination -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+        <div style="font-size: 14px; color: var(--text-muted);">
+          Showing <%= leads.length %> of <%= totalLeads %> leads
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-primary" onclick="previousPage()" <%= currentPage === 1 ? 'disabled' : '' %>>
+            Previous
+          </button>
+          <button class="btn-primary" onclick="nextPage()" <%= (currentPage * pageSize) >= totalLeads ? 'disabled' : '' %>>
+            Next
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <%- include('partials/footer') %>
+  <%- include('components/modal') %>
+  
+  <script>
+    let currentSort = { field: 'createdAt', order: 'desc' };
+    
+    function filterLeads() {
+      const search = document.getElementById('leadSearch').value.toLowerCase();
+      const status = document.getElementById('statusFilter').value;
+      const priority = document.getElementById('priorityFilter').value;
+
+      document.querySelectorAll('.lead-row').forEach(row => {
+        const matchSearch = !search || row.dataset.search.includes(search);
+        const matchStatus = !status || row.dataset.status === status;
+        const matchPriority = !priority || row.dataset.priority === priority;
+        row.style.display = (matchSearch && matchStatus && matchPriority) ? '' : 'none';
+      });
+    }
+    
+    function sortTable(field) {
+      if (currentSort.field === field) {
+        currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.field = field;
+        currentSort.order = 'asc';
+      }
+      
+      // Implement sorting logic
+      window.location.href = `/admin/leads?sort=${field}&order=${currentSort.order}`;
+    }
+    
+    function exportLeads() {
+      window.location.href = '/api/leads/export';
+    }
+    
+    function openLeadModal(id) {
+      currentLeadId = id;
+      document.getElementById('leadModal').classList.add('active');
+      fetch('/api/leads/' + id)
+        .then(res => res.json())
+        .then(lead => renderLeadModal(lead))
+        .catch(() => {
+          document.getElementById('modalBody').innerHTML = '<p style="color: var(--danger);">Failed to load lead</p>';
+        });
+    }
+    
+    function editLead(id) {
+      window.location.href = `/admin/leads/${id}/edit`;
+    }
+    
+    function previousPage() {
+      window.location.href = `/admin/leads?page=${<%= currentPage - 1 %>}`;
+    }
+    
+    function nextPage() {
+      window.location.href = `/admin/leads?page=${<%= currentPage + 1 %>}`;
+    }
+    
+    function showTimelineView() {
+      document.getElementById('timelineView').style.display = 'block';
+      document.getElementById('timelineContent').innerHTML = `
+        <div style="display: grid; gap: 16px;">
+          <div style="background: var(--bg); padding: 16px; border-radius: 12px;">
+            <h4 style="margin-bottom: 12px; font-weight: 600;">Lead Conversion Timeline</h4>
+            <canvas id="timelineChart" style="max-height: 300px;"></canvas>
+          </div>
+          
+          <div style="background: var(--bg); padding: 16px; border-radius: 12px;">
+            <h4 style="margin-bottom: 12px; font-weight: 600;">Lead Journey Analysis</h4>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div class="timeline-stage">
+                <div class="timeline-stage-label">New → Contacted</div>
+                <div class="timeline-stage-bar" style="width: 75%; background: var(--primary);">
+                  <span class="timeline-stage-value">75% (3 days avg)</span>
+                </div>
+              </div>
+              <div class="timeline-stage">
+                <div class="timeline-stage-label">Contacted → Qualified</div>
+                <div class="timeline-stage-bar" style="width: 60%; background: var(--success);">
+                  <span class="timeline-stage-value">60% (5 days avg)</span>
+                </div>
+              </div>
+              <div class="timeline-stage">
+                <div class="timeline-stage-label">Qualified → Proposal</div>
+                <div class="timeline-stage-bar" style="width: 45%; background: var(--warning);">
+                  <span class="timeline-stage-value">45% (7 days avg)</span>
+                </div>
+              </div>
+              <div class="timeline-stage">
+                <div class="timeline-stage-label">Proposal → Converted</div>
+                <div class="timeline-stage-bar" style="width: 80%; background: var(--success);">
+                  <span class="timeline-stage-value">80% (10 days avg)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: var(--bg); padding: 16px; border-radius: 12px;">
+            <h4 style="margin-bottom: 12px; font-weight: 600;">Lead Velocity by Month</h4>
+            <canvas id="velocityChart" style="max-height: 200px;"></canvas>
+          </div>
+        </div>
+      `;
+      
+      // Initialize charts
+      initTimelineCharts();
+    }
+    
+    function hideTimelineView() {
+      document.getElementById('timelineView').style.display = 'none';
+    }
+    
+    function initTimelineCharts() {
+      // Timeline Chart
+      const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+      new Chart(timelineCtx, {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+          datasets: [{
+            label: 'Leads Created',
+            data: [12, 19, 15, 25],
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            tension: 0.4,
+            fill: true
+          }, {
+            label: 'Leads Converted',
+            data: [3, 7, 5, 12],
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Velocity Chart
+      const velocityCtx = document.getElementById('velocityChart').getContext('2d');
+      new Chart(velocityCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Average Days to Convert',
+            data: [15, 12, 18, 14, 11, 13],
+            backgroundColor: '#6366f1'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Days'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    function viewLeadTimeline(id) {
+      document.getElementById('modalTitle').textContent = `Lead Timeline - #${id}`;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="lead-timeline-container">
+          <div class="timeline-header">
+            <div class="timeline-summary">
+              <div class="summary-item">
+                <span class="summary-label">Created:</span>
+                <span class="summary-value">Dec 10, 2024</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Status:</span>
+                <span class="summary-value status-qualified">Qualified</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Days in Pipeline:</span>
+                <span class="summary-value">12</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-events">
+            <div class="timeline-event current">
+              <div class="event-icon">📞</div>
+              <div class="event-content">
+                <div class="event-title">Call Scheduled</div>
+                <div class="event-time">Today, 2:00 PM</div>
+                <div class="event-details">Follow-up call with customer to discuss proposal</div>
+              </div>
+            </div>
+            
+            <div class="timeline-event">
+              <div class="event-icon">📄</div>
+              <div class="event-content">
+                <div class="event-title">Proposal Sent</div>
+                <div class="event-time">Dec 18, 2024</div>
+                <div class="event-details">Sent detailed quotation for 5kW system</div>
+              </div>
+            </div>
+            
+            <div class="timeline-event">
+              <div class="event-icon">✅</div>
+              <div class="event-content">
+                <div class="event-title">Qualified</div>
+                <div class="event-time">Dec 15, 2024</div>
+                <div class="event-details">Lead qualified - customer has budget and authority</div>
+              </div>
+            </div>
+            
+            <div class="timeline-event">
+              <div class="event-icon">💬</div>
+              <div class="event-content">
+                <div class="event-title">Contacted</div>
+                <div class="event-time">Dec 12, 2024</div>
+                <div class="event-details">Initial call completed - customer interested in solar</div>
+              </div>
+            </div>
+            
+            <div class="timeline-event">
+              <div class="event-icon">➕</div>
+              <div class="event-content">
+                <div class="event-title">Lead Created</div>
+                <div class="event-time">Dec 10, 2024</div>
+                <div class="event-details">Lead generated from website contact form</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <style>
+          .lead-timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+          }
+          
+          .timeline-header {
+            background: var(--bg);
+            padding: 16px;
+            border-radius: 8px;
+          }
+          
+          .timeline-summary {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+          }
+          
+          .summary-item {
+            display: flex;
+            gap: 8px;
+          }
+          
+          .summary-label {
+            color: var(--text-muted);
+            font-size: 12px;
+          }
+          
+          .summary-value {
+            font-weight: 500;
+          }
+          
+          .status-qualified {
+            background: var(--success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+          }
+          
+          .timeline-events {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+          
+          .timeline-event {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+          }
+          
+          .timeline-event.current {
+            background: var(--bg-hover);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+          }
+          
+          .event-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+          }
+          
+          .event-content {
+            flex: 1;
+          }
+          
+          .event-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+          }
+          
+          .event-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+          }
+          
+          .event-details {
+            font-size: 13px;
+            color: var(--text-muted);
+          }
+        </style>
+      `;
+      document.getElementById('leadModal').classList.add('active');
+    }
+  </script>
+</body>
+</html>

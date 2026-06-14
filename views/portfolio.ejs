@@ -1,0 +1,172 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="relative min-h-[220px] sm:min-h-[280px] py-16 sm:py-28 overflow-hidden">
+  <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=1600&q=80" alt="Solar panels array" class="absolute inset-0 w-full h-full object-cover object-center">
+  <div class="absolute inset-0 bg-gradient-to-br from-solar-green/85 to-teal-800/85"></div>
+  <div class="relative container mx-auto px-4 text-center text-white">
+    <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">Our <span class="text-solar-orange">Portfolio</span></h1>
+    <p class="text-sm sm:text-xl text-gray-200 max-w-2xl mx-auto">TATA Power's solar portfolio includes many residential projects as well as well-known corporate and institutional names</p>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="py-8 sm:py-12 bg-white shadow-lg relative z-10 -mt-6 sm:-mt-8 mx-3 sm:mx-4 md:mx-auto max-w-5xl rounded-xl sm:rounded-2xl">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center px-4">
+    <div>
+      <p class="text-2xl sm:text-4xl font-bold text-solar-orange mb-1">12</p>
+      <p class="text-gray-600">Industrial Projects</p>
+    </div>
+    <div>
+      <p class="text-2xl sm:text-4xl font-bold text-solar-green mb-1">14</p>
+      <p class="text-gray-600">Institutional Projects</p>
+    </div>
+    <div>
+      <p class="text-2xl sm:text-4xl font-bold text-tata-blue mb-1">300+</p>
+      <p class="text-gray-600">Residential Clients</p>
+    </div>
+    <div>
+      <p class="text-2xl sm:text-4xl font-bold text-solar-teal mb-1">18+ MW</p>
+      <p class="text-gray-600">Total Installed</p>
+    </div>
+  </div>
+</section>
+
+<!-- Industrial Segment -->
+<section class="py-12 sm:py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="relative rounded-2xl overflow-hidden mb-6 sm:mb-8 h-40 sm:h-56">
+      <img src="https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80" alt="Industrial solar installation" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
+      <div class="absolute inset-0 flex items-center px-6 sm:px-10">
+        <div>
+          <span class="text-2xl sm:text-3xl">🏭</span>
+          <h2 class="text-xl sm:text-3xl font-bold text-white">Industrial Segment</h2>
+          <p class="text-gray-300 text-sm mt-1">Large-scale solar powering manufacturing and industry</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-solar-green text-white">
+            <tr>
+              <th class="px-6 py-4 text-left">#</th>
+              <th class="px-6 py-4 text-left">Client Name</th>
+              <th class="px-6 py-4 text-left">Capacity</th>
+              <th class="px-6 py-4 text-left">Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% portfolio.industrial.forEach(function(project, index) { %>
+            <tr class="border-b hover:bg-gray-50 transition">
+              <td class="px-6 py-4 font-semibold text-gray-500"><%= index + 1 %></td>
+              <td class="px-6 py-4 font-semibold text-gray-800"><%= project.name %></td>
+              <td class="px-6 py-4">
+                <span class="bg-solar-orange/10 text-solar-orange px-3 py-1 rounded-full font-semibold"><%= project.capacity %></span>
+              </td>
+              <td class="px-6 py-4 text-gray-600"><%= project.location %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Institutional Segment -->
+<section class="py-12 sm:py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="relative rounded-2xl overflow-hidden mb-6 sm:mb-8 h-40 sm:h-56">
+      <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80" alt="Institutional solar panels" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
+      <div class="absolute inset-0 flex items-center px-6 sm:px-10">
+        <div>
+          <span class="text-2xl sm:text-3xl">🏫</span>
+          <h2 class="text-xl sm:text-3xl font-bold text-white">Institutional Segment</h2>
+          <p class="text-gray-300 text-sm mt-1">Empowering schools, hospitals, and public buildings</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-solar-teal text-white">
+            <tr>
+              <th class="px-6 py-4 text-left">#</th>
+              <th class="px-6 py-4 text-left">Institution Name</th>
+              <th class="px-6 py-4 text-left">Capacity</th>
+              <th class="px-6 py-4 text-left">Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% portfolio.institutional.forEach(function(project, index) { %>
+            <tr class="border-b hover:bg-gray-50 transition">
+              <td class="px-6 py-4 font-semibold text-gray-500"><%= index + 1 %></td>
+              <td class="px-6 py-4 font-semibold text-gray-800"><%= project.name %></td>
+              <td class="px-6 py-4">
+                <span class="bg-solar-green/10 text-solar-green px-3 py-1 rounded-full font-semibold"><%= project.capacity %></span>
+              </td>
+              <td class="px-6 py-4 text-gray-600"><%= project.location %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Domestic Segment -->
+<section class="py-12 sm:py-20 bg-gradient-to-r from-solar-green to-teal-700 text-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8 sm:mb-12">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+        <span class="text-2xl sm:text-3xl">🏠</span>
+      </div>
+      <h2 class="text-xl sm:text-3xl font-bold mb-3 sm:mb-4">Domestic Installation</h2>
+      <p class="text-sm sm:text-xl text-gray-200">Powering homes across Mahakoshal & Vindhya Region</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 max-w-4xl mx-auto">
+      <div class="bg-white/10 backdrop-blur rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center">
+        <p class="text-3xl sm:text-5xl font-bold text-yellow-300 mb-2"><%= portfolio.domestic.clients %></p>
+        <p class="text-xl">Households Served</p>
+        <p class="text-gray-300 mt-2">Under PM Surya Ghar Subsidy Scheme</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center">
+        <p class="text-3xl sm:text-5xl font-bold text-yellow-300 mb-2"><%= portfolio.domestic.capacity %></p>
+        <p class="text-base sm:text-xl">Total Capacity</p>
+        <p class="text-gray-300 mt-2">Installed across the region</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center">
+        <p class="text-3xl sm:text-5xl font-bold text-yellow-300 mb-2">6</p>
+        <p class="text-base sm:text-xl">Districts Covered</p>
+        <p class="text-gray-300 mt-2">Satna, Shahdol, Umaria, Katni, Sidhi, Singrauli</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="relative min-h-[240px] py-16 sm:py-24 overflow-hidden">
+  <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1600&q=80" alt="Green energy field" class="absolute inset-0 w-full h-full object-cover object-center">
+  <div class="absolute inset-0 bg-black/60"></div>
+  <div class="relative container mx-auto px-4 text-center text-white">
+    <h2 class="text-xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">Join Our Growing <span class="text-solar-orange">Client Family</span></h2>
+    <p class="text-sm sm:text-base text-gray-200 max-w-2xl mx-auto mb-6 sm:mb-8">Be part of the solar revolution with TATA Power SOLAROOF and Aarna Solars</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/contact" class="bg-solar-orange text-white px-8 py-4 rounded-full font-semibold hover:bg-orange-600 transition shadow-lg">
+        Get Free Quote
+      </a>
+      <a href="tel:18004198777" class="bg-solar-green text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition shadow-lg">
+        Call Now - 1800 419 8777
+      </a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

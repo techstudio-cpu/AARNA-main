@@ -1,0 +1,49 @@
+<% 
+  // Stats Grid Component
+  // Props:
+  //   stats (required) - Array of stat objects: [{ value: '1,234', label: 'Leads', icon: '👥', trend: '+12%', trendUp: true }, ...]
+  //   columns (optional) - 1 | 2 | 3 | 4 (default: 4)
+  
+  const gridCols = columns || 4;
+%>
+
+<div class="grid grid--<%= gridCols %>" style="margin-bottom: 24px;">
+  <% stats.forEach(function(stat) { %>
+    <div class="card card--interactive">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <div>
+          <div style="
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+          "><%= stat.value %></div>
+          <div style="
+            font-size: 14px;
+            color: var(--text-muted);
+          "><%= stat.label %></div>
+        </div>
+        <div style="
+          font-size: 24px;
+          padding: 8px;
+          background: var(--glass);
+          border-radius: var(--radius-sm);
+        "><%= stat.icon || '📊' %></div>
+      </div>
+      
+      <% if (stat.trend) { %>
+        <div style="
+          margin-top: 16px;
+          font-size: 13px;
+          color: <%= stat.trendUp ? 'var(--success)' : 'var(--danger)' %>;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        ">
+          <span><%= stat.trendUp ? '↑' : '↓' %></span>
+          <span><%= stat.trend %> from last month</span>
+        </div>
+      <% } %>
+    </div>
+  <% }); %>
+</div>

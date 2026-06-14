@@ -1,0 +1,19 @@
+[phases.build]
+cmds = ["npm install", "npm run build"]
+
+[phases.start]
+cmd = "npm start"
+
+[variables]
+NODE_ENV = "production"
+PORT = "3000"
+
+[static]
+# Serve static files from public directory
+guest = "/app/public"
+
+[healthcheck]
+path = "/health"
+interval = "30s"
+timeout = "10s"
+retries = 3

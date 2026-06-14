@@ -1,0 +1,591 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="relative min-h-[200px] sm:min-h-[260px] py-14 sm:py-24 overflow-hidden">
+  <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1600&q=80" alt="Solar calculator" class="absolute inset-0 w-full h-full object-cover object-center">
+  <div class="absolute inset-0 bg-gradient-to-br from-solar-green/85 to-teal-800/85"></div>
+  <div class="relative container mx-auto px-4 text-center text-white">
+    <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">Solar <span class="text-solar-orange">Cost Calculator</span></h1>
+    <p class="text-sm sm:text-xl text-gray-200 max-w-2xl mx-auto">Calculate your solar system cost in 30 seconds. Compare On-Grid, Off-Grid & Hybrid options.</p>
+  </div>
+</section>
+
+<!-- Calculator Section -->
+<section class="py-10 sm:py-16 bg-gray-50">
+  <div class="container mx-auto px-4 max-w-5xl">
+
+    <!-- Input Card -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-10 mb-8">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">Enter Your Electricity Details</h2>
+
+      <!-- Tabs -->
+      <div class="flex justify-center mb-6">
+        <div class="inline-flex bg-gray-100 rounded-full p-1">
+          <button id="tabBill" onclick="switchTab('bill')" class="px-5 py-2 rounded-full text-sm font-semibold bg-solar-green text-white transition">By Monthly Bill</button>
+          <button id="tabIvrs" onclick="switchTab('ivrs')" class="px-5 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-solar-green transition">By IVRS Number</button>
+        </div>
+      </div>
+
+      <!-- Bill Input -->
+      <div id="panelBill" class="">
+        <div class="grid sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Average Monthly Bill (₹)</label>
+            <input type="number" id="monthlyBill" value="3000" min="500" max="50000" step="100"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-lg font-bold text-gray-800"
+              oninput="calculateSolar()">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Electricity Provider</label>
+            <select id="provider" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-gray-700" onchange="calculateSolar()">
+              <option value="mppkvvcl">MPPKVVCL (M.P. Poorv Kshetra)</option>
+              <option value="mpmkvvcl">MPMKVVCL (M.P. Madhya Kshetra)</option>
+              <option value="apdcl">APDCL</option>
+              <option value="other">Other / Private</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Phase</label>
+            <select id="phase" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-gray-700" onchange="calculateSolar()">
+              <option value="single">Single Phase (Home)</option>
+              <option value="three">Three Phase (Commercial/Industrial)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+            <input type="text" id="calcLocation" value="Satna, M.P." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-gray-700">
+          </div>
+        </div>
+      </div>
+
+      <!-- IVRS Input -->
+      <div id="panelIvrs" class="hidden">
+        <div class="grid sm:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Electricity Provider</label>
+            <select id="providerIvrsSelect" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-gray-700">
+              <option value="mppkvvcl">MPPKVVCL (M.P. Poorv)</option>
+              <option value="mpmkvvcl">MPMKVVCL (M.P. Madhya)</option>
+              <option value="apdcl">APDCL</option>
+              <option value="other">Other / Private</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">IVRS / Consumer Number</label>
+            <input type="text" id="ivrsNumber" placeholder="e.g. 1904011146" maxlength="15"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-lg font-bold text-gray-800 uppercase">
+          </div>
+          <div class="flex items-end">
+            <button onclick="fetchBillByIvrs()" id="fetchBillBtn"
+              class="w-full bg-solar-orange text-white px-4 py-3 rounded-xl font-semibold hover:bg-orange-600 transition flex items-center justify-center gap-2">
+              <span>🔍</span> Fetch Bill
+            </button>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mb-4">Enter your electricity bill consumer/IVRS number to auto-fetch your last bill amount.</p>
+
+        <!-- Error Display -->
+        <div id="billErrorDisplay" class="hidden bg-red-50 border border-red-200 rounded-xl p-4 mb-4">
+          <p class="text-sm text-red-700 font-semibold" id="billErrorTitle">Unable to Fetch Bill</p>
+          <p class="text-xs text-red-600 mt-1" id="billErrorText"></p>
+          <div id="billErrorHelp" class="hidden mt-3 pt-3 border-t border-red-200">
+            <p class="text-xs text-red-700 font-semibold mb-1">To enable real bill fetching:</p>
+            <ul class="text-xs text-red-600 list-disc list-inside space-y-1" id="billErrorSteps"></ul>
+          </div>
+        </div>
+
+        <!-- Fetched Bill Display -->
+        <div id="fetchedBillDisplay" class="hidden bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-green-700 font-semibold">Bill Fetched Successfully</p>
+              <p class="text-xs text-green-600">Consumer: <span id="fetchedConsumer"></span> | Month: <span id="fetchedMonth"></span></p>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-green-700">₹<span id="fetchedAmount">0</span></p>
+              <p class="text-xs text-green-600">Units: <span id="fetchedUnits">0</span> kWh</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Phase</label>
+            <select id="phaseIvrs" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-gray-700" onchange="calculateSolar()">
+              <option value="single">Single Phase (Home)</option>
+              <option value="three">Three Phase (Commercial/Industrial)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+            <input type="text" id="calcLocationIvrs" value="Satna, M.P." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none text-gray-700">
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-6 border-t border-gray-100">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm text-gray-600">Estimated Monthly Consumption</span>
+          <span class="text-lg font-bold text-solar-green"><span id="estConsumption">0</span> kWh</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+          <div id="consumptionBar" class="bg-solar-green h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Cards -->
+    <div class="grid md:grid-cols-3 gap-6 mb-10" id="resultCards">
+
+      <!-- On-Grid -->
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-t-4 border-solar-green">
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-solar-green/10 rounded-full flex items-center justify-center text-solar-green text-lg">☀️</div>
+            <div>
+              <h3 class="text-lg font-bold text-gray-800">On-Grid Solar</h3>
+              <p class="text-xs text-gray-500">Grid Connected + Net Metering</p>
+            </div>
+          </div>
+
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Recommended Capacity</span>
+              <span class="font-bold text-gray-800" id="ongridCapacity">0 kWp</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">System Cost</span>
+              <span class="font-bold text-gray-800">₹<span id="ongridCost">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Govt. Subsidy</span>
+              <span class="font-bold text-green-600">- ₹<span id="ongridSubsidy">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm border-t pt-2">
+              <span class="text-gray-700 font-semibold">Net Cost (After Subsidy)</span>
+              <span class="font-bold text-solar-green text-lg">₹<span id="ongridNet">0</span></span>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Yearly Savings</span>
+              <span class="font-bold text-solar-orange">₹<span id="ongridSavings">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Payback Period</span>
+              <span class="font-bold text-gray-800"><span id="ongridPayback">0</span> yrs</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Area Required</span>
+              <span class="font-bold text-gray-800"><span id="ongridArea">0</span> sq.ft</span>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">Lowest Cost</span>
+            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-xs font-semibold">Net Metering</span>
+            <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-lg text-xs font-semibold">₹78k Subsidy</span>
+          </div>
+        </div>
+        <a href="/contact?type=ongrid" class="block bg-solar-green text-white text-center py-3 font-semibold hover:bg-green-700 transition">Get On-Grid Quote →</a>
+      </div>
+
+      <!-- Off-Grid -->
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-t-4 border-solar-orange">
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-solar-orange/10 rounded-full flex items-center justify-center text-solar-orange text-lg">🔋</div>
+            <div>
+              <h3 class="text-lg font-bold text-gray-800">Off-Grid Solar</h3>
+              <p class="text-xs text-gray-500">Battery Backup + Independent</p>
+            </div>
+          </div>
+
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Recommended Capacity</span>
+              <span class="font-bold text-gray-800" id="offgridCapacity">0 kWp</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">System Cost</span>
+              <span class="font-bold text-gray-800">₹<span id="offgridCost">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Govt. Subsidy</span>
+              <span class="font-bold text-gray-400">Not Eligible</span>
+            </div>
+            <div class="flex justify-between text-sm border-t pt-2">
+              <span class="text-gray-700 font-semibold">Net Cost</span>
+              <span class="font-bold text-solar-orange text-lg">₹<span id="offgridNet">0</span></span>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Yearly Savings</span>
+              <span class="font-bold text-solar-orange">₹<span id="offgridSavings">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Payback Period</span>
+              <span class="font-bold text-gray-800"><span id="offgridPayback">0</span> yrs</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Area Required</span>
+              <span class="font-bold text-gray-800"><span id="offgridArea">0</span> sq.ft</span>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded-lg text-xs font-semibold">24×7 Power</span>
+            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-lg text-xs font-semibold">No Grid Needed</span>
+            <span class="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs font-semibold">Higher Cost</span>
+          </div>
+        </div>
+        <a href="/contact?type=offgrid" class="block bg-solar-orange text-white text-center py-3 font-semibold hover:bg-orange-600 transition">Get Off-Grid Quote →</a>
+      </div>
+
+      <!-- Hybrid -->
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-t-4 border-tata-blue">
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-tata-blue/10 rounded-full flex items-center justify-center text-tata-blue text-lg">⚡</div>
+            <div>
+              <h3 class="text-lg font-bold text-gray-800">Hybrid Solar</h3>
+              <p class="text-xs text-gray-500">Grid + Battery Best of Both</p>
+            </div>
+          </div>
+
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Recommended Capacity</span>
+              <span class="font-bold text-gray-800" id="hybridCapacity">0 kWp</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">System Cost</span>
+              <span class="font-bold text-gray-800">₹<span id="hybridCost">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Govt. Subsidy</span>
+              <span class="font-bold text-gray-400">Limited</span>
+            </div>
+            <div class="flex justify-between text-sm border-t pt-2">
+              <span class="text-gray-700 font-semibold">Net Cost</span>
+              <span class="font-bold text-tata-blue text-lg">₹<span id="hybridNet">0</span></span>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Yearly Savings</span>
+              <span class="font-bold text-solar-orange">₹<span id="hybridSavings">0</span></span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Payback Period</span>
+              <span class="font-bold text-gray-800"><span id="hybridPayback">0</span> yrs</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Area Required</span>
+              <span class="font-bold text-gray-800"><span id="hybridArea">0</span> sq.ft</span>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-xs font-semibold">Grid + Backup</span>
+            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">Net Metering</span>
+            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-lg text-xs font-semibold">Smart Choice</span>
+          </div>
+        </div>
+        <a href="/contact?type=hybrid" class="block bg-tata-blue text-white text-center py-3 font-semibold hover:bg-blue-800 transition">Get Hybrid Quote →</a>
+      </div>
+    </div>
+
+    <!-- Aarna AI Recommendation Widget -->
+    <div class="bg-gradient-to-br from-solar-green to-teal-700 rounded-2xl shadow-lg p-6 sm:p-8 text-white mb-10">
+      <div class="text-center mb-6">
+        <h3 class="text-xl sm:text-2xl font-bold mb-2">🤖 Not Sure Which System to Choose?</h3>
+        <p class="text-gray-200 text-sm sm:text-base">Let Aarna AI recommend the perfect solar system for your needs.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-200 mb-2">Grid Availability</label>
+          <select id="aiGridStatus" class="w-full px-4 py-3 bg-white/15 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white/40">
+            <option value="reliable" style="color:#1e293b;">Reliable Grid (city/town)</option>
+            <option value="unreliable" style="color:#1e293b;">Unreliable / Frequent outages</option>
+            <option value="nogrid" style="color:#1e293b;">No Grid (remote area)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-200 mb-2">Need Battery Backup?</label>
+          <select id="aiBackupNeed" class="w-full px-4 py-3 bg-white/15 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white/40">
+            <option value="no" style="color:#1e293b;">No — Grid is sufficient</option>
+            <option value="yes" style="color:#1e293b;">Yes — Need power at night/outages</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button onclick="getAarnaAIRec()" id="aarnaAiBtn"
+          class="bg-white text-solar-green px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition shadow-lg inline-flex items-center gap-2">
+          <span>✨</span> Get Aarna AI Recommendation
+        </button>
+      </div>
+
+      <div id="aarnaAiResult" class="hidden mt-6 bg-white/10 rounded-xl p-5 max-w-2xl mx-auto text-center">
+        <p class="text-xs uppercase tracking-widest text-gray-300 mb-1">Aarna AI Recommends</p>
+        <p class="text-2xl font-bold mb-2" id="aarnaAiRecText">On-Grid Solar</p>
+        <p class="text-sm text-gray-200 leading-relaxed" id="aarnaAiRecReason">Best for areas with reliable grid and net metering benefits.</p>
+        <div class="mt-4 flex flex-wrap justify-center gap-2" id="aarnaAiTags"></div>
+      </div>
+    </div>
+
+    <!-- Assumptions Note -->
+    <div class="bg-white rounded-xl shadow p-5 text-center">
+      <p class="text-xs text-gray-500">
+        <strong>Calculation assumptions:</strong> Average tariff ₹7.5/unit | On-Grid ₹58,000/kWp | Off-Grid ₹95,000/kWp | Hybrid ₹78,000/kWp |
+        Generation 1,500 kWh/kW/year | Residential subsidy up to ₹78,000 (PM Surya Ghar) only for On-Grid.
+        Actual costs may vary based on site survey, roof condition, and component selection.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // ─── Tab Switching ───
+  function switchTab(tab) {
+    document.getElementById('panelBill').classList.toggle('hidden', tab !== 'bill');
+    document.getElementById('panelIvrs').classList.toggle('hidden', tab !== 'ivrs');
+    document.getElementById('tabBill').className = tab === 'bill'
+      ? 'px-5 py-2 rounded-full text-sm font-semibold bg-solar-green text-white transition'
+      : 'px-5 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-solar-green transition';
+    document.getElementById('tabIvrs').className = tab === 'ivrs'
+      ? 'px-5 py-2 rounded-full text-sm font-semibold bg-solar-green text-white transition'
+      : 'px-5 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-solar-green transition';
+  }
+
+  // ─── IVRS Bill Fetch (Real API) ───
+  async function fetchBillByIvrs() {
+    const ivrs = document.getElementById('ivrsNumber').value.trim();
+    const provider = document.getElementById('providerIvrsSelect').value;
+    if (!ivrs || ivrs.length < 5) {
+      alert('Please enter a valid IVRS/Consumer number');
+      return;
+    }
+
+    const btn = document.getElementById('fetchBillBtn');
+    const errorDisplay = document.getElementById('billErrorDisplay');
+    const successDisplay = document.getElementById('fetchedBillDisplay');
+    const errorHelp = document.getElementById('billErrorHelp');
+    const errorSteps = document.getElementById('billErrorSteps');
+
+    // Reset displays
+    errorDisplay.classList.add('hidden');
+    successDisplay.classList.add('hidden');
+    btn.innerHTML = '<span class="animate-spin inline-block">⟳</span> Fetching...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/bill/fetch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider, consumerNumber: ivrs })
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.bill) {
+        // Real bill fetched
+        const bill = data.bill;
+        document.getElementById('fetchedConsumer').textContent = bill.consumerNumber || ivrs;
+        document.getElementById('fetchedMonth').textContent = bill.billMonth || 'Current';
+        document.getElementById('fetchedAmount').textContent = (bill.amount || 0).toLocaleString();
+        document.getElementById('fetchedUnits').textContent = bill.units || Math.round((bill.amount || 0) / 7.5);
+        successDisplay.classList.remove('hidden');
+
+        // Auto-fill bill amount
+        document.getElementById('monthlyBill').value = bill.amount || 0;
+        btn.innerHTML = '<span>✓</span> Bill Fetched';
+        calculateSolar();
+      } else {
+        // Show real error with integration help
+        document.getElementById('billErrorTitle').textContent = data.error || 'Unable to Fetch Bill';
+        document.getElementById('billErrorText').textContent = data.integrationNote ||
+          'Real-time bill fetch requires a BBPS API or electricity provider integration.';
+
+        if (data.howToIntegrate && data.howToIntegrate.length) {
+          errorSteps.innerHTML = data.howToIntegrate.map(s => `<li>${s}</li>`).join('');
+          errorHelp.classList.remove('hidden');
+        } else {
+          errorHelp.classList.add('hidden');
+        }
+        errorDisplay.classList.remove('hidden');
+        btn.innerHTML = '<span>🔍</span> Fetch Bill';
+      }
+    } catch (err) {
+      console.error('[BillFetch] Error:', err);
+      document.getElementById('billErrorTitle').textContent = 'Connection Error';
+      document.getElementById('billErrorText').textContent = 'Could not connect to bill fetch service. Please try again or enter your bill manually.';
+      errorHelp.classList.add('hidden');
+      errorDisplay.classList.remove('hidden');
+      btn.innerHTML = '<span>🔍</span> Fetch Bill';
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // ─── Solar Cost Calculator ───
+  function calculateSolar() {
+    const bill = parseFloat(document.getElementById('monthlyBill').value) || 0;
+    const phase = document.getElementById('phase').value;
+    const isResidential = phase === 'single';
+
+    // Reverse-calculate consumption from bill (avg ₹7.5/unit for residential, ₹9 for commercial)
+    const avgRate = isResidential ? 7.5 : 9.0;
+    const monthlyKwh = Math.round(bill / avgRate);
+    const yearlyKwh = monthlyKwh * 12;
+
+    // Update consumption display
+    document.getElementById('estConsumption').textContent = monthlyKwh.toLocaleString();
+    const maxRef = 1500; // reference max for bar
+    const pct = Math.min(100, (monthlyKwh / maxRef) * 100);
+    document.getElementById('consumptionBar').style.width = pct + '%';
+
+    // Calculate required capacity: 1 kWp generates ~1500 kWh/year in MP
+    // But we want to offset the bill, not full consumption
+    // Target: offset ~80% of bill for optimal ROI
+    const targetYearlyKwh = yearlyKwh * 0.8;
+    const capacity = Math.max(1, Math.round((targetYearlyKwh / 1500) * 10) / 10);
+
+    // Per-kWp costs
+    const onGridRate = 58000;
+    const offGridRate = 95000;
+    const hybridRate = 78000;
+
+    // Subsidy: only residential on-grid, max ₹78,000
+    let subsidy = 0;
+    if (isResidential) {
+      const first3 = Math.min(capacity, 3) * 30000;
+      const next7 = Math.max(0, Math.min(capacity - 3, 7)) * 18000;
+      subsidy = Math.min(78000, Math.round(first3 + next7));
+    }
+
+    // Costs
+    const onGridCost = Math.round(capacity * onGridRate);
+    const offGridCost = Math.round(capacity * offGridRate);
+    const hybridCost = Math.round(capacity * hybridRate);
+
+    // Savings (₹10.08 avg rate for solar generation value)
+    const yearlySavings = Math.round(capacity * 1500 * 10.08);
+
+    // Payback
+    const onGridPayback = ((onGridCost - subsidy) / yearlySavings).toFixed(1);
+    const offGridPayback = (offGridCost / yearlySavings).toFixed(1);
+    const hybridPayback = (hybridCost / yearlySavings).toFixed(1);
+
+    // Area (~100 sq ft per kW)
+    const area = Math.round(capacity * 100);
+
+    // ─── Update On-Grid Card ───
+    document.getElementById('ongridCapacity').textContent = capacity + ' kWp';
+    document.getElementById('ongridCost').textContent = onGridCost.toLocaleString();
+    document.getElementById('ongridSubsidy').textContent = subsidy.toLocaleString();
+    document.getElementById('ongridNet').textContent = (onGridCost - subsidy).toLocaleString();
+    document.getElementById('ongridSavings').textContent = yearlySavings.toLocaleString();
+    document.getElementById('ongridPayback').textContent = onGridPayback;
+    document.getElementById('ongridArea').textContent = area.toLocaleString();
+
+    // ─── Update Off-Grid Card ───
+    document.getElementById('offgridCapacity').textContent = capacity + ' kWp';
+    document.getElementById('offgridCost').textContent = offGridCost.toLocaleString();
+    document.getElementById('offgridNet').textContent = offGridCost.toLocaleString();
+    document.getElementById('offgridSavings').textContent = yearlySavings.toLocaleString();
+    document.getElementById('offgridPayback').textContent = offGridPayback;
+    document.getElementById('offgridArea').textContent = area.toLocaleString();
+
+    // ─── Update Hybrid Card ───
+    document.getElementById('hybridCapacity').textContent = capacity + ' kWp';
+    document.getElementById('hybridCost').textContent = hybridCost.toLocaleString();
+    document.getElementById('hybridNet').textContent = hybridCost.toLocaleString();
+    document.getElementById('hybridSavings').textContent = yearlySavings.toLocaleString();
+    document.getElementById('hybridPayback').textContent = hybridPayback;
+    document.getElementById('hybridArea').textContent = area.toLocaleString();
+  }
+
+  // ─── Aarna AI Public Recommendation ───
+  async function getAarnaAIRec() {
+    const btn = document.getElementById('aarnaAiBtn');
+    btn.innerHTML = '<span class="animate-spin inline-block">⟳</span> Asking Aarna AI...';
+    btn.disabled = true;
+
+    const grid = document.getElementById('aiGridStatus').value;
+    const backup = document.getElementById('aiBackupNeed').value;
+    const bill = parseFloat(document.getElementById('monthlyBill').value) || 3000;
+
+    try {
+      const res = await fetch('/api/ai/recommend-system', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gridStatus: grid,
+          backupNeed: backup,
+          monthlyBill: bill,
+          location: document.getElementById('calcLocation').value || 'Madhya Pradesh',
+          installationType: 'Residential'
+        })
+      });
+
+      const data = await res.json();
+      if (data.success && data.recommendation) {
+        const rec = data.recommendation;
+        document.getElementById('aarnaAiRecText').textContent = rec.recommendedSystem + ' Solar';
+        document.getElementById('aarnaAiRecReason').textContent = rec.reasoning;
+
+        const tags = document.getElementById('aarnaAiTags');
+        tags.innerHTML = '';
+        if (rec.benefits) {
+          rec.benefits.forEach(b => {
+            tags.innerHTML += `<span class="bg-white/20 px-3 py-1 rounded-full text-xs">${b}</span>`;
+          });
+        }
+        if (rec.confidence) {
+          tags.innerHTML += `<span class="bg-solar-orange px-3 py-1 rounded-full text-xs font-bold">Confidence: ${rec.confidence}</span>`;
+        }
+        document.getElementById('aarnaAiResult').classList.remove('hidden');
+      } else {
+        // Fallback to rule-based
+        showRuleBasedRec(grid, backup);
+      }
+    } catch (err) {
+      console.error('[AI] Error:', err);
+      showRuleBasedRec(grid, backup);
+    } finally {
+      btn.innerHTML = '<span>✨</span> Get Aarna AI Recommendation';
+      btn.disabled = false;
+    }
+  }
+
+  function showRuleBasedRec(grid, backup) {
+    let rec = 'On-Grid Solar';
+    let reason = 'Reliable grid with no backup need = lowest cost, net metering benefit.';
+    if (grid === 'nogrid') {
+      rec = 'Off-Grid Solar';
+      reason = 'No grid connection requires full battery backup & standalone system.';
+    } else if (backup === 'yes') {
+      rec = 'Hybrid Solar';
+      reason = 'Battery backup needed for power during outages and night time.';
+    }
+    document.getElementById('aarnaAiRecText').textContent = rec;
+    document.getElementById('aarnaAiRecReason').textContent = reason;
+    document.getElementById('aarnaAiTags').innerHTML = '<span class="bg-white/20 px-3 py-1 rounded-full text-xs">Rule-based fallback</span>';
+    document.getElementById('aarnaAiResult').classList.remove('hidden');
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', calculateSolar);
+</script>
+
+<%- include('partials/footer') %>

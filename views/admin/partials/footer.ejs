@@ -1,0 +1,73 @@
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Global JavaScript Utilities -->
+<script>
+  // Toast Notification System
+  function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast--${type}`;
+    
+    const icon = type === 'success' ? '✓' : 
+                 type === 'error' ? '✕' : 
+                 type === 'warning' ? '⚠' : 'ℹ';
+    
+    toast.innerHTML = `
+      <span style="font-size: 18px;">${icon}</span>
+      <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(100%)';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+  
+  // Refresh Data Handler
+  function refreshData() {
+    showToast('Refreshing data...', 'info');
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
+  
+  // Section Navigation
+  function showSection(section) {
+    // Update URL hash
+    window.location.hash = section;
+    
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(el => {
+      el.style.display = 'none';
+    });
+    
+    // Show target section
+    const target = document.getElementById(section);
+    if (target) {
+      target.style.display = 'block';
+    }
+    
+    // Update active nav item
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('nav-item--active');
+    });
+    
+    const activeNav = document.querySelector(`.nav-item[href="#${section}"]`);
+    if (activeNav) {
+      activeNav.classList.add('nav-item--active');
+    }
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Show section based on URL hash
+    const hash = window.location.hash.slice(1) || 'dashboard';
+    showSection(hash);
+  });
+</script>

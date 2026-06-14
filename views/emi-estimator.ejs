@@ -1,0 +1,316 @@
+<%- include('partials/header') %>
+
+<!-- EMI Estimator Section -->
+<section class="py-16 sm:py-24 bg-gradient-to-br from-solar-green to-teal-700">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          Solar EMI Estimator
+        </h1>
+        <p class="text-white/80 text-lg sm:text-xl max-w-2xl mx-auto">
+          Calculate your monthly EMI for solar system with easy financing options
+        </p>
+      </div>
+      
+      <!-- Calculator Card -->
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div class="bg-gradient-to-r from-solar-orange to-orange-500 text-white p-6 text-center">
+          <p class="text-lg font-semibold">💳 Easy EMI Options for Solar Systems</p>
+        </div>
+        
+        <div class="p-6 sm:p-8">
+          <form id="emiForm" class="space-y-6">
+            <!-- System Cost -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Total System Cost (₹) *</label>
+              <input type="number" id="systemCost" min="50000" required 
+                placeholder="Enter total system cost after subsidy"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+            </div>
+            
+            <!-- Down Payment -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Down Payment (₹)</label>
+              <input type="number" id="downPayment" min="0" value="0" 
+                placeholder="Enter down payment amount"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+              <p class="text-sm text-gray-500 mt-1">Recommended: 10-20% of system cost</p>
+            </div>
+            
+            <!-- Loan Amount -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Loan Amount (₹) *</label>
+              <input type="number" id="loanAmount" min="0" required 
+                placeholder="Auto-calculated based on system cost"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl bg-gray-50" readonly>
+            </div>
+            
+            <!-- Loan Tenure -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Loan Tenure (Years) *</label>
+              <select id="loanTenure" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Loan Tenure</option>
+                <option value="3">3 Years</option>
+                <option value="5" selected>5 Years</option>
+                <option value="7">7 Years</option>
+                <option value="10">10 Years</option>
+                <option value="15">15 Years</option>
+              </select>
+            </div>
+            
+            <!-- Interest Rate -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Interest Rate (% per annum) *</label>
+              <select id="interestRate" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Interest Rate</option>
+                <option value="7.5">7.5% (Special Solar Rate)</option>
+                <option value="8.5">8.5% (Standard Rate)</option>
+                <option value="9.5">9.5% (Premium Rate)</option>
+                <option value="10.5">10.5% (Regular Rate)</option>
+              </select>
+            </div>
+            
+            <!-- Bank Selection -->
+            <div>
+              <label class="block text-gray-700 font-semibold mb-3">Preferred Bank</label>
+              <select id="bank" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-solar-orange focus:outline-none transition">
+                <option value="">Select Bank (Optional)</option>
+                <option value="sbi">State Bank of India</option>
+                <option value="hdfc">HDFC Bank</option>
+                <option value="icici">ICICI Bank</option>
+                <option value="axis">Axis Bank</option>
+                <option value="bob">Bank of Baroda</option>
+                <option value="pnb">Punjab National Bank</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="w-full bg-gradient-to-r from-solar-orange to-orange-500 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+              <span>Calculate EMI</span>
+              <span>→</span>
+            </button>
+          </form>
+          
+          <!-- Results Section (Hidden by default) -->
+          <div id="resultsSection" class="hidden mt-8">
+            <div class="bg-gray-50 rounded-2xl p-6 sm:p-8">
+              <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Your EMI Details</h3>
+              
+              <!-- EMI Summary -->
+              <div class="bg-white rounded-xl p-6 shadow-md mb-6 text-center">
+                <p class="text-gray-600 mb-2">Monthly EMI</p>
+                <p class="text-5xl font-bold text-solar-orange" id="monthlyEMI">₹0</p>
+                <p class="text-sm text-gray-500 mt-2">for <span id="tenureDisplay">5</span> years</p>
+              </div>
+              
+              <!-- Loan Details -->
+              <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">💰</span>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Loan Amount</p>
+                      <p class="text-xl font-bold text-gray-800" id="loanAmountDisplay">₹0</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">📈</span>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Interest Rate</p>
+                      <p class="text-xl font-bold text-gray-800" id="interestRateDisplay">0%</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">💵</span>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Total Interest</p>
+                      <p class="text-xl font-bold text-gray-800" id="totalInterest">₹0</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">📊</span>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Total Payment</p>
+                      <p class="text-xl font-bold text-gray-800" id="totalPayment">₹0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Savings Comparison -->
+              <div class="bg-green-50 rounded-xl p-6 shadow-md mb-6">
+                <h4 class="font-bold text-gray-800 mb-4">💡 Solar Savings vs EMI</h4>
+                <div class="space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Monthly EMI</span>
+                    <span class="font-semibold text-red-600" id="emiComparison">₹0</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Monthly Solar Savings</span>
+                    <span class="font-semibold text-green-600" id="savingsComparison">₹0</span>
+                  </div>
+                  <hr class="my-3">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-800">Net Monthly Benefit</span>
+                    <span class="font-bold text-xl" id="netBenefit">₹0</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Amortization Schedule -->
+              <div class="bg-white rounded-xl p-6 shadow-md">
+                <h4 class="font-bold text-gray-800 mb-4">📅 Yearly Amortization Schedule</h4>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <th class="px-4 py-2 text-left">Year</th>
+                        <th class="px-4 py-2 text-left">Principal Paid</th>
+                        <th class="px-4 py-2 text-left">Interest Paid</th>
+                        <th class="px-4 py-2 text-left">Remaining Balance</th>
+                      </tr>
+                    </thead>
+                    <tbody id="amortizationSchedule">
+                      <!-- Will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <div class="mt-6 flex flex-col sm:flex-row gap-4">
+                <a href="/contact" class="flex-1 bg-solar-orange text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition text-center">
+                  Apply for Loan
+                </a>
+                <a href="/roi-calculator" class="flex-1 bg-solar-green text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition text-center">
+                  Calculate ROI
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Partner Banks -->
+      <div class="mt-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white">
+        <h4 class="font-bold mb-4 text-center">🏦 Our Partner Banks for Solar Financing</h4>
+        <div class="flex flex-wrap justify-center gap-4">
+          <div class="bg-white/20 px-4 py-2 rounded-lg">SBI</div>
+          <div class="bg-white/20 px-4 py-2 rounded-lg">HDFC Bank</div>
+          <div class="bg-white/20 px-4 py-2 rounded-lg">ICICI Bank</div>
+          <div class="bg-white/20 px-4 py-2 rounded-lg">Axis Bank</div>
+          <div class="bg-white/20 px-4 py-2 rounded-lg">Bank of Baroda</div>
+          <div class="bg-white/20 px-4 py-2 rounded-lg">Punjab National Bank</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Auto-calculate loan amount when system cost or down payment changes
+function updateLoanAmount() {
+  const systemCost = parseFloat(document.getElementById('systemCost').value) || 0;
+  const downPayment = parseFloat(document.getElementById('downPayment').value) || 0;
+  const loanAmount = Math.max(0, systemCost - downPayment);
+  document.getElementById('loanAmount').value = loanAmount;
+}
+
+document.getElementById('systemCost').addEventListener('input', updateLoanAmount);
+document.getElementById('downPayment').addEventListener('input', updateLoanAmount);
+
+document.getElementById('emiForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const systemCost = parseFloat(document.getElementById('systemCost').value);
+  const downPayment = parseFloat(document.getElementById('downPayment').value) || 0;
+  const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+  const loanTenure = parseInt(document.getElementById('loanTenure').value);
+  const interestRate = parseFloat(document.getElementById('interestRate').value);
+  
+  // Calculate EMI using formula: EMI = P * r * (1+r)^n / ((1+r)^n - 1)
+  const monthlyRate = interestRate / 12 / 100;
+  const months = loanTenure * 12;
+  
+  let monthlyEMI = 0;
+  if (monthlyRate > 0) {
+    monthlyEMI = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+  } else {
+    monthlyEMI = loanAmount / months;
+  }
+  
+  const totalPayment = monthlyEMI * months;
+  const totalInterest = totalPayment - loanAmount;
+  
+  // Estimate solar savings (assuming 5kW system for calculation)
+  const systemCapacity = systemCost / 60000; // Approx capacity
+  const monthlySavings = systemCapacity * 4.5 * 30 * 8; // Generation * days * rate
+  const netBenefit = monthlySavings - monthlyEMI;
+  
+  // Update UI
+  document.getElementById('monthlyEMI').textContent = '₹' + monthlyEMI.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  document.getElementById('tenureDisplay').textContent = loanTenure;
+  document.getElementById('loanAmountDisplay').textContent = '₹' + loanAmount.toLocaleString('en-IN');
+  document.getElementById('interestRateDisplay').textContent = interestRate + '%';
+  document.getElementById('totalInterest').textContent = '₹' + totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  document.getElementById('totalPayment').textContent = '₹' + totalPayment.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  
+  document.getElementById('emiComparison').textContent = '₹' + monthlyEMI.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  document.getElementById('savingsComparison').textContent = '₹' + monthlySavings.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  document.getElementById('netBenefit').textContent = '₹' + netBenefit.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  document.getElementById('netBenefit').className = netBenefit >= 0 ? 'font-bold text-xl text-green-600' : 'font-bold text-xl text-red-600';
+  
+  // Generate amortization schedule
+  let balance = loanAmount;
+  const scheduleBody = document.getElementById('amortizationSchedule');
+  scheduleBody.innerHTML = '';
+  
+  for (let year = 1; year <= loanTenure; year++) {
+    let yearlyPrincipal = 0;
+    let yearlyInterest = 0;
+    
+    for (let month = 1; month <= 12; month++) {
+      const interestComponent = balance * monthlyRate;
+      const principalComponent = monthlyEMI - interestComponent;
+      
+      yearlyPrincipal += principalComponent;
+      yearlyInterest += interestComponent;
+      balance -= principalComponent;
+      
+      if (balance < 0) balance = 0;
+    }
+    
+    scheduleBody.innerHTML += `
+      <tr class="border-b">
+        <td class="px-4 py-2">${year}</td>
+        <td class="px-4 py-2">₹${yearlyPrincipal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
+        <td class="px-4 py-2">₹${yearlyInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
+        <td class="px-4 py-2">₹${balance.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
+      </tr>
+    `;
+  }
+  
+  // Show results
+  document.getElementById('resultsSection').classList.remove('hidden');
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+<%- include('partials/footer') %>

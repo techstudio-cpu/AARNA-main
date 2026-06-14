@@ -1,0 +1,152 @@
+/**
+ * Aarna Solars - TechStudio Theme Variables
+ * Dark theme with indigo-purple gradients and glassmorphism
+ * Inspired by techstudioi-workspace-production.up.railway.app
+ */
+
+:root {
+  /* ===== PRIMARY COLORS (Indigo-Purple Gradient) ===== */
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --primary-dark: #4f46e5;
+  --primary-rgb: 99, 102, 241;
+  
+  /* ===== SECONDARY COLORS (Purple) ===== */
+  --secondary: #a855f7;
+  --secondary-light: #c084fc;
+  --secondary-dark: #9333ea;
+  
+  /* ===== ACCENT GRADIENTS ===== */
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+  --gradient-text: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+  --gradient-bg: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  
+  /* ===== SEMANTIC COLORS ===== */
+  --success: #22c55e;
+  --success-light: #4ade80;
+  --success-bg: rgba(34, 197, 94, 0.15);
+  
+  --warning: #f59e0b;
+  --warning-light: #fbbf24;
+  --warning-bg: rgba(245, 158, 11, 0.15);
+  
+  --danger: #ef4444;
+  --danger-light: #f87171;
+  --danger-bg: rgba(239, 68, 68, 0.15);
+  
+  --info: #06b6d4;
+  --info-light: #22d3ee;
+  --info-bg: rgba(6, 182, 212, 0.15);
+  
+  /* ===== BACKGROUND COLORS (TechStudio Dark) ===== */
+  --bg: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-elevated: #0b1221;
+  
+  /* ===== TEXT COLORS ===== */
+  --text: #f8fafc;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-disabled: #64748b;
+  --text-inverse: #0f172a;
+  
+  /* ===== GLASS EFFECTS (TechStudio Style) ===== */
+  --glass: rgba(30, 41, 59, 0.7);
+  --glass-hover: rgba(30, 41, 59, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-light: rgba(255, 255, 255, 0.05);
+  --glass-highlight: rgba(255, 255, 255, 0.1);
+  
+  /* ===== BORDER COLORS ===== */
+  --border: rgba(148, 163, 184, 0.15);
+  --border-light: rgba(148, 163, 184, 0.1);
+  --border-dark: rgba(71, 85, 105, 0.5);
+  --border-focus: #6366f1;
+  
+  /* ===== SHADOWS (Glow Effects) ===== */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+  
+  /* ===== GLOW EFFECTS ===== */
+  --glow-primary: 0 0 20px rgba(99, 102, 241, 0.4);
+  --glow-secondary: 0 0 20px rgba(168, 85, 247, 0.4);
+  --glow-success: 0 0 20px rgba(34, 197, 94, 0.3);
+  --glow-danger: 0 0 20px rgba(239, 68, 68, 0.3);
+  
+  /* ===== TYPOGRAPHY ===== */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  
+  /* ===== SPACING ===== */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  
+  /* ===== SIZING ===== */
+  --size-xs: 1.5rem;
+  --size-sm: 2rem;
+  --size-md: 2.5rem;
+  --size-lg: 3rem;
+  --size-xl: 3.5rem;
+  
+  /* ===== RADIUS (Modern) ===== */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* ===== Z-INDEX ===== */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+  --z-tooltip: 500;
+  
+  /* ===== TRANSITIONS ===== */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* ===== BLUR VALUES ===== */
+  --blur-sm: 4px;
+  --blur: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+}

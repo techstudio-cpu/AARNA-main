@@ -1,0 +1,29 @@
+<% 
+  // Button Component
+  // Props:
+  //   text (required) - Button label
+  //   variant (optional) - 'primary' | 'secondary' | 'ghost' | 'danger' (default: 'primary')
+  //   size (optional) - 'sm' | 'md' | 'lg' (default: 'md')
+  //   icon (optional) - Emoji or icon character
+  //   onClick (optional) - JavaScript function to call
+  //   type (optional) - 'button' | 'submit' | 'reset' (default: 'button')
+  //   disabled (optional) - true | false
+  //   className (optional) - Additional CSS classes
+  //   id (optional) - Element ID
+  
+  const btnVariant = variant || 'primary';
+  const btnSize = size || 'md';
+  const btnType = type || 'button';
+  const btnClass = `btn btn--${btnVariant} btn--${btnSize} ${className || ''}`.trim();
+%>
+
+<button 
+  type="<%= btnType %>"
+  class="<%= btnClass %>"
+  <% if (id) { %>id="<%= id %>"<% } %>
+  <% if (disabled) { %>disabled<% } %>
+  <% if (onClick) { %>onclick="<%= onClick %>"<% } %>
+>
+  <% if (icon) { %><span class="btn__icon"><%= icon %></span><% } %>
+  <span class="btn__text"><%= text %></span>
+</button>
