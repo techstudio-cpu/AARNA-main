@@ -4,6 +4,9 @@
   <%- include('partials/head') %>
   <title>Quotations - Aarna Solars Admin</title>
   <link rel="stylesheet" href="/css/admin-classic-quotation.css">
+  <!-- PDF Generation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="app-container">
@@ -291,6 +294,9 @@
   
   <script>
     // Quotation Builder JavaScript
+    let components = [];
+    let componentCounter = 0;
+
     function updateSystemDefaults() {
       // Update default values based on system type
       calculateTotals();
@@ -303,6 +309,13 @@
       
       // Calculate base system cost
       let baseCost = capacity * 60000; // Base rate per kW
+      
+      // Add components cost
+      components.forEach(comp => {
+        const qty = parseInt(comp.quantity) || 0;
+        const price = parseFloat(comp.price) || 0;
+        baseCost += qty * price;
+      });
       
       // Update subtotal
       document.getElementById('subtotal').textContent = '₹' + baseCost.toLocaleString('en-IN');
@@ -346,24 +359,183 @@
       document.getElementById('quoteDate').textContent = today.toLocaleDateString('en-IN');
       const validUntil = new Date(today.setDate(today.getDate() + 30));
       document.getElementById('validUntil').textContent = validUntil.toLocaleDateString('en-IN');
+      
+      // Update components in preview
+      updateComponentsPreview();
     }
     
     function addComponent() {
-      // Add component logic
+      componentCounter++;
+      const componentId = `component-${componentCounter}`;
+      
+      const component = {
+        id: componentId,
+        name: '',
+        quantity: 1,
+        price: 0
+      };
+      
+      components.push(component);
+      
+      const componentHtml = `
+        <div class="qb-component-item" id="${componentId}" style="margin-bottom: 12px; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 12px; align-items: center;">
+            <input type="text" placeholder="Component name" 
+                   onchange="updateComponent('${componentId}', 'name', this.value)"
+                   style="padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px;">
+            <input type="number" placeholder="Qty" value="1" min="1"
+                   onchange="updateComponent('${componentId}', 'quantity', this.value)"
+                   style="padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px;">
+            <input type="number" placeholder="Price" value="0" min="0"
+                   onchange="updateComponent('${componentId}', 'price', this.value)"
+                   style="padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px;">
+            <button onclick="removeComponent('${componentId}')" 
+                    style="padding: 8px 12px; background: #EF4444; color: white; border: none; border-radius: 6px; cursor: pointer;">
+              ✕
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('componentsList').insertAdjacentHTML('beforeend', componentHtml);
+      calculateTotals();
+    }
+    
+    function updateComponent(id, field, value) {
+      const component = components.find(c => c.id === id);
+      if (component) {
+        component[field] = field === 'quantity' || field === 'price' ? parseFloat(value) || 0 : value;
+        calculateTotals();
+      }
+    }
+    
+    function removeComponent(id) {
+      components = components.filter(c => c.id !== id);
+      document.getElementById(id).remove();
+      calculateTotals();
+    }
+    
+    function updateComponentsPreview() {
+      // This would update the preview components table
+      // For now, just ensure the totals are calculated
     }
     
     function loadTemplate() {
-      // Load template logic
+      // Load default template values
+      document.getElementById('systemType').value = 'on-grid';
+      document.getElementById('systemCapacity').value = '3';
+      document.getElementById('panelType').value = 'mono';
+      document.getElementById('inverterType').value = 'string';
+      document.getElementById('installationCharges').value = '10000';
+      
+      // Add default components
+      components = [];
+      document.getElementById('componentsList').innerHTML = '';
+      componentCounter = 0;
+      
+      // Add solar panels
+      componentCounter++;
+      const panelId = `component-${componentCounter}`;
+      components.push({
+        id: panelId,
+        name: 'Solar Panels (330W)',
+        quantity: 9,
+        price: 8500
+      });
+      
+      // Add inverter
+      componentCounter++;
+      const inverterId = `component-${componentCounter}`;
+      components.push({
+        id: inverterId,
+        name: 'String Inverter (3kW)',
+        quantity: 1,
+        price: 25000
+      });
+      
+      // Add mounting structure
+      componentCounter++;
+      const mountId = `component-${componentCounter}`;
+      components.push({
+        id: mountId,
+        name: 'Mounting Structure',
+        quantity: 1,
+        price: 8000
+      });
+      
+      // Render components
+      renderComponents();
+      calculateTotals();
+      updatePreview();
+      
+      alert('Template loaded successfully!');
+    }
+    
+    function renderComponents() {
+      document.getElementById('componentsList').innerHTML = '';
+      components.forEach(comp => {
+        const componentHtml = `
+          <div class="qb-component-item" id="${comp.id}" style="margin-bottom: 12px; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 12px; align-items: center;">
+              <input type="text" placeholder="Component name" value="${comp.name}"
+                     onchange="updateComponent('${comp.id}', 'name', this.value)"
+                     style="padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px;">
+              <input type="number" placeholder="Qty" value="${comp.quantity}" min="1"
+                     onchange="updateComponent('${comp.id}', 'quantity', this.value)"
+                     style="padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px;">
+              <input type="number" placeholder="Price" value="${comp.price}" min="0"
+                     onchange="updateComponent('${comp.id}', 'price', this.value)"
+                     style="padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px;">
+              <button onclick="removeComponent('${comp.id}')" 
+                      style="padding: 8px 12px; background: #EF4444; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                ✕
+              </button>
+            </div>
+          </div>
+        `;
+        document.getElementById('componentsList').insertAdjacentHTML('beforeend', componentHtml);
+      });
     }
     
     function generatePDF() {
-      // PDF generation logic using html2canvas and jsPDF
+      // PDF generation logic using html2canvas and jspdf
       const element = document.querySelector('.qb-page');
-      html2canvas(element).then(canvas => {
+      
+      if (!element) {
+        alert('Error: No quotation preview found');
+        return;
+      }
+      
+      alert('Generating PDF... Please wait.');
+      
+      html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true
+      }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jspdf.jsPDF();
-        pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        
+        const imgWidth = 210;
+        const pageHeight = 297;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
         pdf.save('quotation.pdf');
+        
+        alert('PDF generated successfully!');
+      }).catch(error => {
+        console.error('PDF generation error:', error);
+        alert('Error generating PDF. Please try again.');
+      });
+    }
+    
+    function previewPage(page) {
+      // Switch between preview pages
+      const pages = document.querySelectorAll('.qb-page');
+      pages.forEach((p, index) => {
+        p.style.display = (index + 1) === page ? 'block' : 'none';
       });
     }
     

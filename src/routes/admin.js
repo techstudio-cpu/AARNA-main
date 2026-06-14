@@ -213,4 +213,24 @@ router.get('/pipeline', requireAuth, (req, res) => {
   res.redirect('/admin/dashboard');
 });
 
+// Follow-ups route - redirects to leads (feature not yet implemented)
+router.get('/followups', requireAuth, (req, res) => {
+  res.redirect('/admin/leads');
+});
+
+// Users route - redirects to settings (user management is in settings)
+router.get('/users', requireAuth, (req, res) => {
+  res.redirect('/admin/settings');
+});
+
+// Audit route - redirects to settings (audit log is in settings)
+router.get('/audit', requireAuth, (req, res) => {
+  res.redirect('/admin/settings');
+});
+
+// Sessions route - redirects to settings (session management is in settings)
+router.get('/sessions', requireAuth, (req, res) => {
+  res.redirect('/admin/settings');
+});
+
 module.exports = router;
