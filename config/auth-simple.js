@@ -45,13 +45,31 @@ async function getUserById(id) {
   }
 }
 
-// Authenticate user against PostgreSQL (username + password)
+// Authenticate user against PostgreSQL (username + password) with fallback to env vars
 async function authenticateUser(username, password) {
   try {
     console.log(`🔐 Auth attempt for user: ${username}`);
+    
+    // Try PostgreSQL first
     const user = await db.getUserByUsername(username);
     if (!user) {
-      console.log(`🔐 User not found: ${username}`);
+      console.log(`🔐 User not found in PostgreSQL: ${username}`);
+      
+      // Fallback: Check against environment variables for local development
+      if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+        console.log(`🔐 Auth success via env vars for user: ${username} (fallback mode)`);
+        return {
+          id: 'admin-fallback',
+          username: username,
+          email: process.env.ADMIN_EMAIL || 'admin@example.com',
+          displayName: process.env.ADMIN_NAME || 'System Administrator',
+          role: 'super_admin',
+          active: true,
+          createdAt: new Date().toISOString()
+        };
+      }
+      
+      console.log(`🔐 Fallback auth failed for user: ${username}`);
       return null;
     }
 
@@ -90,6 +108,22 @@ async function authenticateUser(username, password) {
     };
   } catch (e) {
     console.error('Error authenticating user:', e.message);
+    
+    // Fallback: Check against environment variables if PostgreSQL fails
+    console.log(`🔐 PostgreSQL auth failed, trying env var fallback for user: ${username}`);
+    if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+      console.log(`🔐 Auth success via env vars for user: ${username} (fallback mode)`);
+      return {
+        id: 'admin-fallback',
+        username: username,
+        email: process.env.ADMIN_EMAIL || 'admin@example.com',
+        displayName: process.env.ADMIN_NAME || 'System Administrator',
+        role: 'super_admin',
+        active: true,
+        createdAt: new Date().toISOString()
+      };
+    }
+    
     return null;
   }
 }

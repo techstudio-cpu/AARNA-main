@@ -53,7 +53,10 @@ const helmetConfig = {
         "https://cdnjs.cloudflare.com",
         "https://api.resend.com",
         "https://cdn.tailwindcss.com",
-        "https://images.unsplash.com"
+        "https://images.unsplash.com",
+        "https://www.google-analytics.com",
+        "https://analytics.google.com",
+        "https://*.google-analytics.com"
       ],
       frameSrc: ["'self'", "https://www.google.com"],
       objectSrc: ["'none'"],
